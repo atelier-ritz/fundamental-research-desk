@@ -32,4 +32,10 @@ Historical free cash flow = operating cash flow − cash purchases of property a
 
 ## Current limits
 
-US GAAP annual figures only. Segment dimensions, company-specific KPIs, quarterly/TTM histories, live prices, peer multiples, automated narrative research, and consensus estimates are not integrated. Banks, insurers, REITs, and complex capital structures require specialized valuation models. Source gaps and model limitations are visible in the report.
+US GAAP annual figures only. Segment coverage is described below. Company-specific operating KPI feeds, quarterly/TTM histories, live prices, peer multiples, automated narrative research, and consensus estimates are not integrated. Banks, insurers, REITs, and complex capital structures require specialized valuation models. Source gaps and model limitations are visible in the report.
+
+## Business overview and revenue composition
+
+Reviewed, filing-linked profiles cover Microsoft FY2026, Apple FY2025, and Amazon FY2025. Profiles are selected by CIK, exact annual end date, and reconciled total revenue. Apple product categories and geographic operating segments are separate views of the same revenue. Drivers are paraphrases of company disclosures, not independent causal findings or forecasts.
+
+For other tickers, the API attempts conservative extraction of standard USD revenue facts from the original inline-XBRL filing. It accepts only supported single-axis business/product/geographic groups that match the exact annual period, contain unique nonnegative categories, and reconcile to the annual company total. Conflicts, overlaps, unsupported transforms, and failed extraction produce a visible coverage gap. Automatically derived tag names may be less readable; reviewed business descriptions and drivers are not fabricated. Reviewed profiles and any fetched extracted breakdown travel with the self-contained HTML report.

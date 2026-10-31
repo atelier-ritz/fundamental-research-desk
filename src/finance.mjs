@@ -24,7 +24,7 @@ export function normalize(raw,ticker,meta={}) {
   return {...p,label:'FY '+p.end.slice(0,4),facts};
  });
  if(years.length<2)throw Error('At least two comparable annual revenue periods are required.');
- return {ticker,name:raw.entityName,cik:raw.cik,years,retrieved:new Date().toISOString(),sic:meta.sic||'',industry:meta.sicDescription||'',segments:[],notes:['Annual values use 330–380 day periods; metrics must match the revenue period exactly.','Latest eligible filing for each metric is used; comparative figures may be restated. Different metrics may cite different filings.','Segment dimensions and company-specific operating KPIs are not supplied by this standardized company-facts feed.','This first version shows annual periods. Quarterly and consensus forecasts are not included.']};
+ return {ticker,name:raw.entityName,cik:raw.cik,years,retrieved:new Date().toISOString(),sic:meta.sic||'',industry:meta.sicDescription||'',segments:[],notes:['Annual values use 330–380 day periods; metrics must match the revenue period exactly.','Latest eligible filing for each metric is used; comparative figures may be restated. Different metrics may cite different filings.','The company-facts feed omits segment dimensions. Separate annual-filing enrichment is shown when available; operating KPI coverage varies.','This first version shows annual periods. Quarterly and consensus forecasts are not included.']};
 }
 export function dcf(data,a){
  if(!['growth','margin','tax','reinvest','discount','terminal'].every(k=>Number.isFinite(a[k])))throw Error('All model assumptions must be finite numbers.');

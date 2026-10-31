@@ -1,0 +1,187 @@
+[
+  {
+    "cik": 789019,
+    "periodEnd": "2026-06-30",
+    "priorEnd": "2025-06-30",
+    "totalRevenue": 331839000000,
+    "priorTotalRevenue": 281724000000,
+    "source": "https://www.microsoft.com/investor/reports/ar26/index.html",
+    "sourceLabel": "Microsoft FY2026 annual report \u00b7 Operating Segments; Segment Results of Operations",
+    "method": "reviewed",
+    "summary": "Microsoft earns money from business software subscriptions, cloud computing, software licenses, advertising, and consumer technology. Businesses, developers, public-sector organizations, and consumers buy its products and services.",
+    "payments": "Customers pay through recurring subscriptions, cloud usage charges, software licenses, advertising, and hardware or gaming purchases.",
+    "coverage": "Microsoft Cloud is an overlapping measure spanning several segments. It is not a fourth segment. AI-related activity is spread across businesses and is not a separate revenue slice here.",
+    "views": [
+      {
+        "id": "segments",
+        "label": "Business segments",
+        "kind": "Reported operating segments",
+        "segments": [
+          {
+            "name": "Productivity and Business Processes",
+            "revenue": 139996000000,
+            "priorRevenue": 120810000000,
+            "description": "Microsoft 365, Dynamics, and LinkedIn: tools for work, business applications, recruitment, and advertising.",
+            "driver": "Management links growth to more business users and higher spending per user, including Copilot and premium Microsoft 365 plans."
+          },
+          {
+            "name": "Intelligent Cloud",
+            "revenue": 137791000000,
+            "priorRevenue": 106265000000,
+            "description": "Azure cloud computing, server software, and enterprise and partner services.",
+            "driver": "Customer usage, cloud pricing, and computing capacity affect sales; building and running AI infrastructure also affects costs."
+          },
+          {
+            "name": "More Personal Computing",
+            "revenue": 54052000000,
+            "priorRevenue": 54649000000,
+            "description": "Windows and devices, Xbox games and services, and search advertising.",
+            "driver": "PC and device demand, gaming spending, and search advertising affect results. Microsoft reported lower gaming sales in this period."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "cik": 320193,
+    "periodEnd": "2025-09-27",
+    "priorEnd": "2024-09-28",
+    "totalRevenue": 416161000000,
+    "priorTotalRevenue": 391035000000,
+    "source": "https://www.sec.gov/Archives/edgar/data/320193/000032019325000079/aapl-20250927.htm",
+    "sourceLabel": "Apple FY2025 Form 10-K \u00b7 Item 1; Item 7; Note 13",
+    "method": "reviewed",
+    "summary": "Apple sells consumer devices such as iPhone, Mac, and iPad, along with software and services. Consumers and organizations buy directly from Apple or through carriers, retailers, and other resellers.",
+    "payments": "Revenue comes from device purchases and services such as subscriptions, app distribution, advertising, payment services, and cloud storage.",
+    "coverage": "Apple\u2019s reportable operating segments are geographic. Products and services are a separate revenue classification. The two views describe the same sales and must not be added together.",
+    "views": [
+      {
+        "id": "products",
+        "label": "Products & services",
+        "kind": "Reported product categories \u00b7 not operating segments",
+        "segments": [
+          {
+            "name": "iPhone",
+            "revenue": 209586000000,
+            "priorRevenue": 201183000000,
+            "description": "Apple smartphones.",
+            "driver": "Management attributed the sales increase to higher sales of Pro models."
+          },
+          {
+            "name": "Mac",
+            "revenue": 33708000000,
+            "priorRevenue": 29984000000,
+            "description": "Mac laptop and desktop computers.",
+            "driver": "Management attributed growth primarily to higher sales of laptops and desktops."
+          },
+          {
+            "name": "iPad",
+            "revenue": 28023000000,
+            "priorRevenue": 26694000000,
+            "description": "Apple tablets.",
+            "driver": "Higher sales of several iPad models were partly offset by lower iPad Pro sales."
+          },
+          {
+            "name": "Wearables, Home and Accessories",
+            "revenue": 35686000000,
+            "priorRevenue": 37005000000,
+            "description": "Wearable devices, home products, and accessories.",
+            "driver": "Management attributed the decline primarily to lower accessories and wearables sales."
+          },
+          {
+            "name": "Services",
+            "revenue": 109158000000,
+            "priorRevenue": 96169000000,
+            "description": "Advertising, App Store activity, subscriptions, cloud services, and other services.",
+            "driver": "Management attributed growth primarily to advertising, App Store activity, and cloud services."
+          }
+        ]
+      },
+      {
+        "id": "segments",
+        "label": "Geographic segments",
+        "kind": "Reported operating segments",
+        "segments": [
+          {
+            "name": "Americas",
+            "revenue": 178353000000,
+            "priorRevenue": 167045000000,
+            "description": "North and South America.",
+            "driver": "Higher iPhone and Services sales supported growth; currency movements were unfavorable."
+          },
+          {
+            "name": "Europe",
+            "revenue": 111032000000,
+            "priorRevenue": 101328000000,
+            "description": "Europe plus India, the Middle East, and Africa, as defined by Apple.",
+            "driver": "Management cited higher Services, iPhone, and Mac sales."
+          },
+          {
+            "name": "Greater China",
+            "revenue": 64377000000,
+            "priorRevenue": 66952000000,
+            "description": "Mainland China, Hong Kong, and Taiwan.",
+            "driver": "Lower iPhone sales were partly offset by higher Mac sales."
+          },
+          {
+            "name": "Japan",
+            "revenue": 28703000000,
+            "priorRevenue": 25052000000,
+            "description": "Japan.",
+            "driver": "Management cited higher iPhone, Services, and iPad sales."
+          },
+          {
+            "name": "Rest of Asia Pacific",
+            "revenue": 33696000000,
+            "priorRevenue": 30658000000,
+            "description": "Australia and remaining Asian countries outside the other geographic segments.",
+            "driver": "Management cited higher iPhone, Services, and Mac sales."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "cik": 1018724,
+    "periodEnd": "2025-12-31",
+    "priorEnd": "2024-12-31",
+    "totalRevenue": 716924000000,
+    "priorTotalRevenue": 637959000000,
+    "source": "https://www.sec.gov/Archives/edgar/data/1018724/000101872426000004/amzn-20251231.htm",
+    "sourceLabel": "Amazon FY2025 Form 10-K \u00b7 Item 1; Item 7; Note 10",
+    "method": "reviewed",
+    "summary": "Amazon runs online and physical stores, serves marketplace sellers, sells advertising and subscriptions, and provides cloud computing through Amazon Web Services (AWS). Its customers include shoppers, sellers, advertisers, developers, and organizations.",
+    "payments": "Amazon earns product sales, marketplace and fulfillment fees, advertising revenue, subscription fees, and charges for cloud services.",
+    "coverage": "North America and International include several revenue streams, including retail, seller services, advertising, and subscriptions. AWS is the cloud segment. These segments do not separately isolate AI revenue.",
+    "views": [
+      {
+        "id": "segments",
+        "label": "Business segments",
+        "kind": "Reported operating segments",
+        "segments": [
+          {
+            "name": "North America",
+            "revenue": 426305000000,
+            "priorRevenue": 387497000000,
+            "description": "Retail, seller services, subscriptions, advertising, and related activity in North America.",
+            "driver": "Management linked sales growth to more units sold, including marketplace sales, and growth in advertising and subscriptions."
+          },
+          {
+            "name": "International",
+            "revenue": 161894000000,
+            "priorRevenue": 142906000000,
+            "description": "International retail, seller services, subscriptions, advertising, and related activity.",
+            "driver": "Management cited more units sold, advertising, and subscriptions. Currency movements also increased reported sales."
+          },
+          {
+            "name": "Amazon Web Services",
+            "revenue": 128725000000,
+            "priorRevenue": 107556000000,
+            "description": "Cloud infrastructure and services for businesses, developers, and other organizations.",
+            "driver": "Management linked growth to more customer usage, partly offset by pricing changes under longer-term customer contracts."
+          }
+        ]
+      }
+    ]
+  }
+]
