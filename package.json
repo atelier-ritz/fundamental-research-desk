@@ -1,0 +1,11 @@
+{
+  "name": "fundamental-research",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs && bash scripts/build.sh",
+    "validate": "node scripts/validate-artifact.mjs",
+    "test": "node --test test/*.test.mjs",
+    "dev": "node scripts/serve.mjs"
+  }
+}
