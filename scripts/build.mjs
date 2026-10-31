@@ -1,5 +1,5 @@
 import fs from 'node:fs';
-const finance=fs.readFileSync('src/finance.mjs','utf8').replaceAll('export ','');
+const finance=fs.readFileSync('src/quarters.mjs','utf8').replaceAll('export ','')+'\n'+fs.readFileSync('src/finance.mjs','utf8').replace("import {normalizeQuarters} from './quarters.mjs';\n",'').replaceAll('export ','');
 const data=fs.readFileSync('src/snapshot.json','utf8').replaceAll('<','\\u003c');
 const business=fs.readFileSync('src/business.mjs','utf8').replaceAll('export ','')+'\nconst BUSINESS_PROFILES='+fs.readFileSync('src/business-profiles.json','utf8')+';\n';
 const app=finance+'\n'+business+'\n'+fs.readFileSync('src/forecast.mjs','utf8').replaceAll('export ','')+'\n'+fs.readFileSync('src/observations.mjs','utf8').replaceAll('export ','')+'\n'+fs.readFileSync('src/help.js','utf8')+'\n'+fs.readFileSync('src/app.js','utf8');

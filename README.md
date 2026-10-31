@@ -32,7 +32,7 @@ Historical free cash flow = operating cash flow − cash purchases of property a
 
 ## Current limits
 
-US GAAP annual figures only. Segment coverage is described below. Company-specific operating KPI feeds, quarterly/TTM histories, live prices, peer multiples, automated narrative research, and consensus estimates are not integrated. Banks, insurers, REITs, and complex capital structures require specialized valuation models. Source gaps and model limitations are visible in the report.
+US GAAP annual figures only. Segment coverage is described below. Company-specific operating KPI feeds, live prices, peer multiples, automated narrative research, and consensus estimates are not integrated. Banks, insurers, REITs, and complex capital structures require specialized valuation models. Source gaps and model limitations are visible in the report.
 
 ## Business overview and revenue composition
 
@@ -43,3 +43,7 @@ For other tickers, the API attempts conservative extraction of standard USD reve
 ## Forecast context
 
 Growth starts from elapsed-date annualized revenue growth over the displayed history (fallback 10% if missing or outside -25% to 60%). Operating margin uses the median of up to three recent margins (fallback 25% if missing or outside -30% to 80%). Tax uses the median of recent tax expense / positive pretax income with eligible rates 0%–50% (fallback 21%). History-based starting values round to 0.1 percentage point to match controls. Net reinvestment stays illustrative at 8%; displayed cash-capex intensity is context, not a substitute for net reinvestment. WACC and terminal growth start at illustrative 10% and 2.5%. The three comparison cards vary current growth by ±5 percentage points with all other inputs fixed; the range is not a confidence interval.
+
+## Quarterly performance
+
+Quarter-only USD revenue, operating income, net income, operating cash flow and cash capex are selected with filing provenance. Missing standalone figures are derived only from cumulative totals with a common fiscal start and XBRL tag; same-accession pairs are preferred. Fiscal Q4 can be annual total minus nine months. Cross-filing subtraction is labeled because revisions can affect comparability. TTM needs four contiguous 65–110 day quarters spanning 330–380 days. At fiscal year ends, sums are checked against matching annual totals and conflicting metrics are withheld. Same-quarter comparisons allow 52/53-week calendars. Latest revenue-bearing filing date, quarter dates, and retrieval date are shown separately; this is not an earnings-release monitor. Valuation remains anchored to annual figures.

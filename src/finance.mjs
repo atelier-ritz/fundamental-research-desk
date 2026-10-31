@@ -1,3 +1,4 @@
+import {normalizeQuarters} from './quarters.mjs';
 export const TAGS = {
  revenue:['RevenueFromContractWithCustomerExcludingAssessedTax','Revenues','SalesRevenueNet'],
  pretax:['IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest','IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments'], incomeTax:['IncomeTaxExpenseBenefit'], cost:['CostOfRevenue','CostOfGoodsAndServicesSold'], research:['ResearchAndDevelopmentExpense'], selling:['SellingGeneralAndAdministrativeExpense'], operating:['OperatingIncomeLoss'], net:['NetIncomeLoss'], cfo:['NetCashProvidedByUsedInOperatingActivities'], capex:['PaymentsToAcquirePropertyPlantAndEquipment'],
@@ -24,7 +25,7 @@ export function normalize(raw,ticker,meta={}) {
   return {...p,label:'FY '+p.end.slice(0,4),facts};
  });
  if(years.length<2)throw Error('At least two comparable annual revenue periods are required.');
- return {ticker,name:raw.entityName,cik:raw.cik,years,retrieved:new Date().toISOString(),sic:meta.sic||'',industry:meta.sicDescription||'',segments:[],notes:['Annual values use 330–380 day periods; metrics must match the revenue period exactly.','Latest eligible filing for each metric is used; comparative figures may be restated. Different metrics may cite different filings.','The company-facts feed omits segment dimensions. Separate annual-filing enrichment is shown when available; operating KPI coverage varies.','This first version shows annual periods. Quarterly and consensus forecasts are not included.']};
+ return {ticker,name:raw.entityName,cik:raw.cik,years,retrieved:new Date().toISOString(),quarterly:normalizeQuarters(raw),sic:meta.sic||'',industry:meta.sicDescription||'',segments:[],notes:['Annual values use 330–380 day periods; metrics must match the revenue period exactly.','Latest eligible filing for each metric is used; comparative figures may be restated. Different metrics may cite different filings.','The company-facts feed omits segment dimensions. Separate annual-filing enrichment is shown when available; operating KPI coverage varies.','Annual figures anchor valuation; quarterly and trailing results are shown separately. Consensus forecasts are not included.']};
 }
 export function dcf(data,a){
  if(!['growth','margin','tax','reinvest','discount','terminal'].every(k=>Number.isFinite(a[k])))throw Error('All model assumptions must be finite numbers.');
