@@ -1,6 +1,6 @@
 export const TAGS = {
  revenue:['RevenueFromContractWithCustomerExcludingAssessedTax','Revenues','SalesRevenueNet'],
- cost:['CostOfRevenue','CostOfGoodsAndServicesSold'], research:['ResearchAndDevelopmentExpense'], selling:['SellingGeneralAndAdministrativeExpense'], operating:['OperatingIncomeLoss'], net:['NetIncomeLoss'], cfo:['NetCashProvidedByUsedInOperatingActivities'], capex:['PaymentsToAcquirePropertyPlantAndEquipment'],
+ pretax:['IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest','IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments'], incomeTax:['IncomeTaxExpenseBenefit'], cost:['CostOfRevenue','CostOfGoodsAndServicesSold'], research:['ResearchAndDevelopmentExpense'], selling:['SellingGeneralAndAdministrativeExpense'], operating:['OperatingIncomeLoss'], net:['NetIncomeLoss'], cfo:['NetCashProvidedByUsedInOperatingActivities'], capex:['PaymentsToAcquirePropertyPlantAndEquipment'],
  cash:['CashAndCashEquivalentsAtCarryingValue'], investments:['ShortTermInvestments'], debtCurrent:['LongTermDebtCurrent','LongTermDebtAndCapitalLeaseObligationsCurrent'], debtLong:['LongTermDebtNoncurrent'], shortDebt:['ShortTermBorrowings'], shares:['CommonStockSharesOutstanding'], eps:['EarningsPerShareDiluted'], assets:['Assets'], sbc:['ShareBasedCompensation']
 };
 export function normalize(raw,ticker,meta={}) {
