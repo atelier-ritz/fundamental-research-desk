@@ -15,3 +15,10 @@ test('Normalizer excludes quarterly, future filings, incompatible durations and 
  const raw={cik:1,entityName:'Example',facts:{'us-gaap':{Revenues:{units:{USD:[fact(2023,100),fact(2024,120),fact(2024,125,{filed:'2025-08-01'}),fact(2024,500,{filed:'2099-01-01'}),fact(2025,30,{start:'2025-04-01',form:'10-Q'})]}},OperatingIncomeLoss:{units:{USD:[fact(2024,50,{start:'2024-01-01'})]}}}}};
  const result=normalize(raw,'EX');assert.equal(result.years.length,2);assert.equal(result.years[1].facts.revenue.val,125);assert.equal(result.years[1].facts.operating,null);assert.ok(result.years[1].facts.revenue.url.startsWith('https://www.sec.gov/Archives/'));assert.equal(result.years[1].facts.revenue.filed,'2025-08-01');
 });
+
+test('manual claims and dilution reconcile without automatic lease double counting',()=>{
+ const leaseData=structuredClone(data);leaseData.years[0].facts.financeLeases={val:50};
+ const r=dcf(leaseData,{...a,claims:20,dilution:.1});
+ assert.equal(r.equity,dcf(data,a).equity-20);assert.equal(r.adjustedShares,11);assert.equal(r.perShare,r.equity/11);
+ assert.throws(()=>dcf(data,{...a,claims:-1}));assert.throws(()=>dcf(data,{...a,dilution:NaN}));
+});

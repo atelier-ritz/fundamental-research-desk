@@ -1,5 +1,6 @@
 import {normalizeQuarters} from './quarters.mjs';
 export const TAGS = {
+ depreciation:['Depreciation','DepreciationDepletionAndAmortizationPropertyPlantAndEquipment'], receivables:['AccountsReceivableNetCurrent'], inventory:['InventoryNet'], payables:['AccountsPayableCurrent'],
  interest:['InterestExpenseNonoperating','InterestExpense'], leaseInterest:['FinanceLeaseInterestExpense'], dividends:['PaymentsOfDividendsCommonStock'], buybacks:['PaymentsForRepurchaseOfCommonStock'], operatingLeases:['OperatingLeaseLiability'], financeLeases:['FinanceLeaseLiability'], maturity1:['LongTermDebtMaturitiesRepaymentsOfPrincipalInNextTwelveMonths'], maturity2:['LongTermDebtMaturitiesRepaymentsOfPrincipalInYearTwo'], maturity3:['LongTermDebtMaturitiesRepaymentsOfPrincipalInYearThree'], maturity4:['LongTermDebtMaturitiesRepaymentsOfPrincipalInYearFour'], maturity5:['LongTermDebtMaturitiesRepaymentsOfPrincipalInYearFive'], maturityAfter5:['LongTermDebtMaturitiesRepaymentsOfPrincipalAfterYearFive'],
  revenue:['RevenueFromContractWithCustomerExcludingAssessedTax','Revenues','SalesRevenueNet'],
  pretax:['IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest','IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments'], incomeTax:['IncomeTaxExpenseBenefit'], cost:['CostOfRevenue','CostOfGoodsAndServicesSold'], research:['ResearchAndDevelopmentExpense'], selling:['SellingGeneralAndAdministrativeExpense'], operating:['OperatingIncomeLoss'], net:['NetIncomeLoss'], cfo:['NetCashProvidedByUsedInOperatingActivities'], capex:['PaymentsToAcquirePropertyPlantAndEquipment'],
@@ -22,7 +23,7 @@ export function normalize(raw,ticker,meta={}) {
   if(['10-K','10-K/A'].includes(f.form)&&f.filed<=cutoff&&days>=330&&days<=380) periods.set(f.end,{start:f.start,end:f.end});
  }
  const years=[...periods.values()].sort((a,b)=>a.end.localeCompare(b.end)).slice(-5).map(p=>{
-  const facts={}; for(const k of Object.keys(TAGS))facts[k]=pick(k,p.end,['cash','investments','debtCurrent','debtLong','shortDebt','shares','assets','operatingLeases','financeLeases','maturity1','maturity2','maturity3','maturity4','maturity5','maturityAfter5'].includes(k)?null:p.start);
+  const facts={}; for(const k of Object.keys(TAGS))facts[k]=pick(k,p.end,['receivables','inventory','payables','cash','investments','debtCurrent','debtLong','shortDebt','shares','assets','operatingLeases','financeLeases','maturity1','maturity2','maturity3','maturity4','maturity5','maturityAfter5'].includes(k)?null:p.start);
   return {...p,label:'FY '+p.end.slice(0,4),facts};
  });
  if(years.length<2)throw Error('At least two comparable annual revenue periods are required.');
@@ -39,6 +40,18 @@ export function dcf(data,a){
  const cash=v('cash'),long=v('debtLong'),current=v('debtCurrent'),shares=v('shares');
  const ready=[cash,long,current,shares].every(Number.isFinite)&&shares>0;
  const debt=ready?long+current+(v('shortDebt')||0):null;
- const equity=ready?ev+cash+(v('investments')||0)-debt:null;
- return {rows,ev,equity,perShare:equity===null?null:equity/shares,terminalShare:terminal/ev,terminal,cash,shares,debt};
+ const claims=a.claims??0,dilution=a.dilution??0;
+ if(!Number.isFinite(claims)||claims<0||!Number.isFinite(dilution)||dilution<0)throw Error('Additional claims and dilution must be finite, nonnegative numbers.');
+ const equity=ready?ev+cash+(v('investments')||0)-debt-claims:null;
+ const adjustedShares=Number.isFinite(shares)?shares*(1+dilution):null;
+ return {rows,ev,equity,perShare:equity===null?null:equity/adjustedShares,claims,dilution,adjustedShares,terminalShare:terminal/ev,terminal,cash,shares,debt};
+}
+
+export function reinvestmentHistory(data){
+ const value=(y,k)=>y?.facts[k]?.val;
+ const wc=y=>['receivables','inventory','payables'].every(k=>Number.isFinite(value(y,k)))?value(y,'receivables')+value(y,'inventory')-value(y,'payables'):null;
+ return data.years.map((y,i)=>{const prior=data.years[i-1],currentWC=wc(y),priorWC=wc(prior),gap=prior?(Date.parse(y.start)-Date.parse(prior.end))/86400000:null;
+ const delta=currentWC!==null&&priorWC!==null&&gap===1?currentWC-priorWC:null,capex=value(y,'capex'),depreciation=value(y,'depreciation');
+ const net=[capex,depreciation,delta].every(Number.isFinite)?capex-depreciation+delta:null;
+ return {year:y,capex,depreciation,currentWC,delta,net,ratio:net!==null&&value(y,'revenue')>0?net/value(y,'revenue'):null};});
 }
