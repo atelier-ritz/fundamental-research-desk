@@ -1,4 +1,5 @@
 const memory=new Map();
+const companyHeaders={'Cache-Control':'no-store','X-Report-Revision':REPORT_REVISION};
 const marketService=createMarketService();
 async function sec(path){
  const hit=memory.get(path);if(hit&&Date.now()-hit.time<3600000)return hit.value;
@@ -13,7 +14,7 @@ export default {async fetch(request,env={}){
   try{
    const ticker=(url.searchParams.get('ticker')||'').trim().toUpperCase();
    if(!/^[A-Z][A-Z0-9.\-]{0,9}$/.test(ticker))return Response.json({error:'Enter a valid US stock symbol.'},{status:400});
-   const cached=memory.get('company:'+ticker);if(cached&&Date.now()-cached.time<3600000)return Response.json(cached.value);
+   const cached=memory.get('company:'+ticker);if(url.searchParams.get('refresh')!=='1'&&cached&&Date.now()-cached.time<3600000)return Response.json(cached.value,{headers:companyHeaders});
    const tickers=await sec('www.sec.gov/files/company_tickers.json');
    const match=Object.values(tickers).find(t=>t.ticker===ticker);if(!match)return Response.json({error:'Symbol not found in the SEC issuer directory. Try the issuer’s primary US ticker.'},{status:404});
    const cik=String(match.cik_str).padStart(10,'0');
@@ -39,9 +40,9 @@ export default {async fetch(request,env={}){
     }catch(error){data.businessGap='Filing enrichment unavailable: '+error.message;}
    }
    memory.set('company:'+ticker,{time:Date.now(),value:data});
-   return Response.json(data,{headers:{'Cache-Control':'private, max-age=3600'}});
-  }catch(error){return Response.json({error:error.message},{status:502});}
+   return Response.json(data,{headers:companyHeaders});
+  }catch(error){return Response.json({error:error.message},{status:502,headers:companyHeaders});}
  }
  if(url.pathname!=='/')return new Response('Not found',{status:404});
- return new Response(PAGE,{headers:{'Content-Type':'text/html; charset=utf-8','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer'}});
+ return new Response(PAGE,{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store','X-Report-Revision':REPORT_REVISION,'X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer'}});
 }};

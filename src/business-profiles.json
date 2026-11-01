@@ -22,21 +22,27 @@
             "revenue": 139996000000,
             "priorRevenue": 120810000000,
             "description": "Microsoft 365, Dynamics, and LinkedIn: tools for work, business applications, recruitment, and advertising.",
-            "driver": "Management links growth to more business users and higher spending per user, including Copilot and premium Microsoft 365 plans."
+            "driver": "Management links growth to more business users and higher spending per user, including Copilot and premium Microsoft 365 plans.",
+            "operatingIncome": 83879000000,
+            "priorOperatingIncome": 69773000000
           },
           {
             "name": "Intelligent Cloud",
             "revenue": 137791000000,
             "priorRevenue": 106265000000,
             "description": "Azure cloud computing, server software, and enterprise and partner services.",
-            "driver": "Customer usage, cloud pricing, and computing capacity affect sales; building and running AI infrastructure also affects costs."
+            "driver": "Customer usage, cloud pricing, and computing capacity affect sales; building and running AI infrastructure also affects costs.",
+            "operatingIncome": 56972000000,
+            "priorOperatingIncome": 44589000000
           },
           {
             "name": "More Personal Computing",
             "revenue": 54052000000,
             "priorRevenue": 54649000000,
             "description": "Windows and devices, Xbox games and services, and search advertising.",
-            "driver": "PC and device demand, gaming spending, and search advertising affect results. Microsoft reported lower gaming sales in this period."
+            "driver": "PC and device demand, gaming spending, and search advertising affect results. Microsoft reported lower gaming sales in this period.",
+            "operatingIncome": 14386000000,
+            "priorOperatingIncome": 14166000000
           }
         ]
       }

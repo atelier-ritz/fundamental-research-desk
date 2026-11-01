@@ -1,5 +1,6 @@
 import {assessCompany} from './suitability.mjs';
 import {normalizeQuarters} from './quarters.mjs';
+export const REPORT_REVISION='2026-11-01.2';
 export const TAGS = {
  depreciation:['Depreciation','DepreciationDepletionAndAmortizationPropertyPlantAndEquipment'], receivables:['AccountsReceivableNetCurrent'], inventory:['InventoryNet'], payables:['AccountsPayableCurrent'],
  interest:['InterestExpenseNonoperating','InterestExpense'], leaseInterest:['FinanceLeaseInterestExpense'], dividends:['PaymentsOfDividendsCommonStock','PaymentsOfDividends'], buybacks:['PaymentsForRepurchaseOfCommonStock'], operatingLeases:['OperatingLeaseLiability'], financeLeases:['FinanceLeaseLiability'], maturity1:['LongTermDebtMaturitiesRepaymentsOfPrincipalInNextTwelveMonths'], maturity2:['LongTermDebtMaturitiesRepaymentsOfPrincipalInYearTwo'], maturity3:['LongTermDebtMaturitiesRepaymentsOfPrincipalInYearThree'], maturity4:['LongTermDebtMaturitiesRepaymentsOfPrincipalInYearFour'], maturity5:['LongTermDebtMaturitiesRepaymentsOfPrincipalInYearFive'], maturityAfter5:['LongTermDebtMaturitiesRepaymentsOfPrincipalAfterYearFive'],
@@ -35,7 +36,7 @@ export function normalize(raw,ticker,meta={}) {
   return {...p,label:'FY '+p.end.slice(0,4),facts};
  });
  if(years.length<2)throw Error('At least two comparable annual revenue periods are required.');
- return {ticker,name:raw.entityName,cik:raw.cik,years,retrieved:new Date().toISOString(),quarterly:normalizeQuarters(raw),sic:meta.sic||'',industry:meta.sicDescription||'',segments:[],notes:['Annual values use 330–380 day periods; metrics must match the revenue period exactly.','Latest eligible filing for each metric is used; comparative figures may be restated. Different metrics may cite different filings.','The company-facts feed omits segment dimensions. Separate annual-filing enrichment is shown when available; operating KPI coverage varies.','Annual figures anchor valuation; quarterly and trailing results are shown separately. Consensus forecasts are not included.']};
+ return {schemaVersion:REPORT_REVISION,ticker,name:raw.entityName,cik:raw.cik,years,retrieved:new Date().toISOString(),quarterly:normalizeQuarters(raw),sic:meta.sic||'',industry:meta.sicDescription||'',segments:[],notes:['Annual values use 330–380 day periods; metrics must match the revenue period exactly.','Latest eligible filing for each metric is used; comparative figures may be restated. Different metrics may cite different filings.','The company-facts feed omits segment dimensions. Separate annual-filing enrichment is shown when available; operating KPI coverage varies.','Annual figures anchor valuation; quarterly and trailing results are shown separately. Consensus forecasts are not included.']};
 }
 export function cashFlowDefinitions(year){
  const v=k=>year?.facts[k]?.val,cfo=v('cfo'),gross=v('capex'),proceeds=v('capexProceeds');
