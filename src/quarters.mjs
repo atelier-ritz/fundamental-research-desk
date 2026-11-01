@@ -1,5 +1,6 @@
 export function normalizeQuarters(raw,cutoff=new Date().toISOString().slice(0,10)){
  const tags={revenue:['RevenueFromContractWithCustomerExcludingAssessedTax','Revenues','SalesRevenueNet'],operating:['OperatingIncomeLoss'],net:['NetIncomeLoss'],cfo:['NetCashProvidedByUsedInOperatingActivities'],capex:['PaymentsToAcquirePropertyPlantAndEquipment']};
+ if(Number(raw.cik)===1018724)tags.capex.push('PaymentsToAcquireProductiveAssets');
  const day=86400000,days=(start,end)=>(Date.parse(end)-Date.parse(start))/day+1,next=date=>new Date(Date.parse(date)+day).toISOString().slice(0,10),previous=date=>new Date(Date.parse(date)-day).toISOString().slice(0,10);
  const valid=f=>['10-K','10-K/A','10-Q','10-Q/A'].includes(f.form)&&f.filed<=cutoff&&f.end<=cutoff&&f.start&&Number.isFinite(f.val);
  const facts={};for(const [key,names]of Object.entries(tags))facts[key]=names.map(tag=>({tag,rows:(raw.facts?.['us-gaap']?.[tag]?.units?.USD||[]).filter(valid).sort((a,b)=>b.filed.localeCompare(a.filed)||b.accn.localeCompare(a.accn))}));

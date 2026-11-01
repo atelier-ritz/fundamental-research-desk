@@ -164,24 +164,37 @@
             "revenue": 426305000000,
             "priorRevenue": 387497000000,
             "description": "Retail, seller services, subscriptions, advertising, and related activity in North America.",
-            "driver": "Management linked sales growth to more units sold, including marketplace sales, and growth in advertising and subscriptions."
+            "driver": "Management linked sales growth to more units sold, including marketplace sales, and growth in advertising and subscriptions.",
+            "operatingIncome": 29619000000,
+            "priorOperatingIncome": 24967000000.0
           },
           {
             "name": "International",
             "revenue": 161894000000,
             "priorRevenue": 142906000000,
             "description": "International retail, seller services, subscriptions, advertising, and related activity.",
-            "driver": "Management cited more units sold, advertising, and subscriptions. Currency movements also increased reported sales."
+            "driver": "Management cited more units sold, advertising, and subscriptions. Currency movements also increased reported sales.",
+            "operatingIncome": 4750000000,
+            "priorOperatingIncome": 3792000000
           },
           {
             "name": "Amazon Web Services",
             "revenue": 128725000000,
             "priorRevenue": 107556000000,
             "description": "Cloud infrastructure and services for businesses, developers, and other organizations.",
-            "driver": "Management linked growth to more customer usage, partly offset by pricing changes under longer-term customer contracts."
+            "driver": "Management linked growth to more customer usage, partly offset by pricing changes under longer-term customer contracts.",
+            "operatingIncome": 45606000000,
+            "priorOperatingIncome": 39834000000
           }
         ]
       }
-    ]
+    ],
+    "earningsReview": {
+      "published": "2026-02-05",
+      "periodEnd": "2025-12-31",
+      "checked": "2026-11-01",
+      "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Fourth-Quarter-Results/default.aspx",
+      "scope": "FY2025 earnings release checked; newer announcements have not been checked."
+    }
   }
 ]
