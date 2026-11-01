@@ -1,12 +1,14 @@
 const memory=new Map();
+const marketService=createMarketService();
 async function sec(path){
  const hit=memory.get(path);if(hit&&Date.now()-hit.time<3600000)return hit.value;
  const response=await fetch('https://'+path,{headers:{'User-Agent':'FundamentalResearch/1.0 (public financial research; https://fundamental-research-desk.comfydance.chatgpt.site)','Accept':'application/json'},signal:AbortSignal.timeout(20000)});
  if(!response.ok)throw Error('SEC data service returned '+response.status+'. Try again later or import a company-facts JSON file.');
  const value=await response.json();if(!path.includes('/companyfacts/'))memory.set(path,{time:Date.now(),value});if(memory.size>30)memory.delete(memory.keys().next().value);return value;
 }
-export default {async fetch(request){
+export default {async fetch(request,env={}){
  const url=new URL(request.url);
+ if(['/api/market/status','/api/market/quote'].includes(url.pathname))return marketService(request,env);
  if(url.pathname==='/api/company'){
   try{
    const ticker=(url.searchParams.get('ticker')||'').trim().toUpperCase();
