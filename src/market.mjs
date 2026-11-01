@@ -1,3 +1,4 @@
+import {assessCompany} from './suitability.mjs';
 const MARKET_SYMBOL=/^[A-Z][A-Z0-9.\-]{0,9}$/;
 export function marketDate(value,now=new Date()){
  if(typeof value!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(value)||!Number.isFinite(Date.parse(value))||new Date(value).toISOString().slice(0,10)!==value||value>now.toISOString().slice(0,10))throw Error('Use a valid price date that is not in the future.');
@@ -22,9 +23,10 @@ export function marketMetrics(data,quote,now=new Date()){
  const y=data.years.at(-1),f=y.facts,finite=k=>Number.isFinite(f[k]?.val);
  // Do not combine a historical price with financial facts filed after that price date.
  const eligible=keys=>quote.asOf>=y.end&&keys.every(k=>finite(k)&&/^\d{4}-\d{2}-\d{2}$/.test(f[k].filed||'')&&f[k].filed<=quote.asOf);
- const peReady=eligible(['eps'])&&f.eps.val>0,fcfReady=eligible(['cfo','capex','shares'])&&f.shares.val>0;
+ const suitability=assessCompany(data);
+ const peReady=eligible(['eps'])&&f.eps.val>0,fcfReady=!suitability.financial&&eligible(['cfo','capex','shares'])&&f.shares.val>0;
  const marketCap=fcfReady?quote.price*f.shares.val:null,fcf=fcfReady?f.cfo.val-f.capex.val:null;
  const scenarioKeys=['revenue','operating','pretax','incomeTax','shares','cash','investments','debtCurrent','debtLong','shortDebt'];
- const scenarioEligible=quote.asOf>=y.end&&data.years.every(year=>scenarioKeys.every(k=>!Number.isFinite(year.facts[k]?.val)||(/^\d{4}-\d{2}-\d{2}$/.test(year.facts[k].filed||'')&&year.facts[k].filed<=quote.asOf)));
- return {scenarioEligible,pe:peReady?quote.price/f.eps.val:null,fcfYield:fcfReady?fcf/marketCap:null,marketCap,fcf,annualEnd:y.end,shares:finite('shares')?f.shares.val:null,ageDays:Math.floor((Date.parse(now.toISOString().slice(0,10))-Date.parse(quote.asOf))/86400000),peReason:peReady?'':'Positive annual diluted EPS, filed on or before the price date, is required.',fcfReason:fcfReady?'':'Annual operating cash flow, cash asset spending and positive shares, filed on or before the price date, are required.'};
+ const scenarioEligible=suitability.dcfAllowed&&quote.asOf>=y.end&&data.years.every(year=>scenarioKeys.every(k=>!Number.isFinite(year.facts[k]?.val)||(/^\d{4}-\d{2}-\d{2}$/.test(year.facts[k].filed||'')&&year.facts[k].filed<=quote.asOf)));
+ return {scenarioEligible,pe:peReady?quote.price/f.eps.val:null,fcfYield:fcfReady?fcf/marketCap:null,marketCap,fcf,annualEnd:y.end,shares:finite('shares')?f.shares.val:null,ageDays:Math.floor((Date.parse(now.toISOString().slice(0,10))-Date.parse(quote.asOf))/86400000),peReason:peReady?'':'Positive annual diluted EPS, filed on or before the price date, is required.',fcfReason:suitability.financial?'The industrial-company free cash flow yield is withheld for financial businesses.':fcfReady?'':'Annual operating cash flow, cash asset spending and positive shares, filed on or before the price date, are required.'};
 }

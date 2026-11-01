@@ -1,3 +1,4 @@
+import {assessCompany} from './suitability.mjs';
 export function parsePeerTickers(text,active){
  const symbols=[...new Set(text.trim().toUpperCase().split(/[,\s]+/).filter(Boolean))].filter(s=>s!==active.toUpperCase());
  if(!symbols.length)throw Error('Enter at least one different stock symbol.');
@@ -24,5 +25,6 @@ export function comparisonMetrics(data){
  metric('longDebt',valid(current)&&valid(long)?current+long:null,'money',annual,['debtCurrent','debtLong'],'Current + noncurrent long-term debt carrying values. Other debt and leases are not added.','One or both long-term debt components are unavailable.');
  metric('currentDebt',current,'money',annual,['debtCurrent'],'Current portion of long-term debt at annual period end. Not all obligations due within a year.','Current long-term debt is unavailable.');
  metric('interestCoverage',valid(op)&&interest>0?op/interest:null,'multiple',annual,['operating','interest'],'Operating income / selected positive reported interest expense. Lease interest may be outside this measure.','Operating income or a positive reported interest expense is unavailable.');
+ if(assessCompany(data).financial)for(const key of ['fcfMargin','ttmFcfMargin','interestCoverage']){items[key].value=null;items[key].reason='Withheld for financial businesses: this industrial-company metric is not suitable.';}
  return {ticker:data.ticker,name:data.name,cik:data.cik,annualEnd:annual.end,quarterEnd:quarter?.end||null,retrieved:data.retrieved,items};
 }

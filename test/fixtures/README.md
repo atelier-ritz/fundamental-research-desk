@@ -1,0 +1,7 @@
+# SEC company regression cases
+
+RIVN (CIK 1874178), XOM (34088), JPM (19617) are normalized copies of public SEC company-facts data and submissions metadata retrieved November 1, 2026. Annual figures cover 2021–2025 and retain fact-level accession, dates, exact tags and source links. Microsoft uses the report's existing five-year snapshot (annual base June 30, 2026). These are regression fixtures, not current market quotes or a full financial-statement audit.
+
+Sources: https://data.sec.gov/api/xbrl/companyfacts/CIK0001874178.json ; https://data.sec.gov/api/xbrl/companyfacts/CIK0000034088.json ; https://data.sec.gov/api/xbrl/companyfacts/CIK0000019617.json . SIC classifications come from the matching https://data.sec.gov/submissions/CIK##########.json documents. Refresh by downloading both public files and calling `normalize(facts, ticker, submissions)` from `src/finance.mjs`.
+
+Known coverage gaps remain visible: selected current debt for RIVN; operating income, inventory, depreciation and noncurrent debt for XOM; many industrial tags and supported quarterly revenue periods for JPM. Missing feed tags do not establish absence in the original filings. The tests exercise negative margins, unavailable components, source periods, formula reconciliation, and financial-industry exclusions. The $100 reference prices in tests are calculation fixtures, never market data.

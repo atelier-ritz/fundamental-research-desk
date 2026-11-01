@@ -1,7 +1,8 @@
+import {assessCompany} from './suitability.mjs';
 export function financialStrength(data){
  const period=data.years.at(-1),facts=period.facts,value=key=>facts[key]?.val,finite=Number.isFinite;
  const longDebtSubtotal=finite(value('debtCurrent'))&&finite(value('debtLong'))?value('debtCurrent')+value('debtLong'):null;
- const interest=value('interest'),coverage=finite(value('operating'))&&interest>0?value('operating')/interest:null;
+ const interest=value('interest'),coverage=!assessCompany(data).financial&&finite(value('operating'))&&interest>0?value('operating')/interest:null;
  const uses=['capex','dividends','buybacks'];
  const allUses=uses.every(key=>finite(value(key))&&value(key)>=0),selectedUses=allUses?uses.reduce((sum,key)=>sum+value(key),0):null;
  const remaining=selectedUses!==null&&finite(value('cfo'))?value('cfo')-selectedUses:null;

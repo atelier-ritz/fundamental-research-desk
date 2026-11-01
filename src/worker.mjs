@@ -18,12 +18,13 @@ export default {async fetch(request,env={}){
    const match=Object.values(tickers).find(t=>t.ticker===ticker);if(!match)return Response.json({error:'Symbol not found in the SEC issuer directory. Try the issuer’s primary US ticker.'},{status:404});
    const cik=String(match.cik_str).padStart(10,'0');
    const facts=await sec('data.sec.gov/api/xbrl/companyfacts/CIK'+cik+'.json');
-   const data=normalize(facts,ticker);
+   let metadata={};try{metadata=await sec('data.sec.gov/submissions/CIK'+cik+'.json');}catch{}
+   const data=normalize(facts,ticker,metadata);
    data.business=selectBusinessProfile(data,BUSINESS_PROFILES);
    if(!data.business){
     try{
      const period=data.years.at(-1),sourceFact=period.facts.revenue;
-     const submissions=await sec('data.sec.gov/submissions/CIK'+cik+'.json');
+     const submissions=metadata.filings?metadata:await sec('data.sec.gov/submissions/CIK'+cik+'.json');
      data.sic=submissions.sic||'';data.industry=submissions.sicDescription||'';
      const recent=submissions.filings?.recent,index=recent?.accessionNumber?.indexOf(sourceFact.accn),doc=index>=0?recent.primaryDocument[index]:null;
      if(doc&&/^[a-zA-Z0-9_.-]+\.html?$/.test(doc)){

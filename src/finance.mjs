@@ -1,3 +1,4 @@
+import {assessCompany} from './suitability.mjs';
 import {normalizeQuarters} from './quarters.mjs';
 export const TAGS = {
  depreciation:['Depreciation','DepreciationDepletionAndAmortizationPropertyPlantAndEquipment'], receivables:['AccountsReceivableNetCurrent'], inventory:['InventoryNet'], payables:['AccountsPayableCurrent'],
@@ -30,6 +31,7 @@ export function normalize(raw,ticker,meta={}) {
  return {ticker,name:raw.entityName,cik:raw.cik,years,retrieved:new Date().toISOString(),quarterly:normalizeQuarters(raw),sic:meta.sic||'',industry:meta.sicDescription||'',segments:[],notes:['Annual values use 330–380 day periods; metrics must match the revenue period exactly.','Latest eligible filing for each metric is used; comparative figures may be restated. Different metrics may cite different filings.','The company-facts feed omits segment dimensions. Separate annual-filing enrichment is shown when available; operating KPI coverage varies.','Annual figures anchor valuation; quarterly and trailing results are shown separately. Consensus forecasts are not included.']};
 }
 export function dcf(data,a){
+ const suitability=assessCompany(data);if(!suitability.dcfAllowed)throw Error(suitability.reason);
  if(!['growth','margin','tax','reinvest','discount','terminal'].every(k=>Number.isFinite(a[k])))throw Error('All model assumptions must be finite numbers.');
  const last=data.years.at(-1), v=k=>last.facts[k]?.val;
  if(!(v('revenue')>0)||!(a.discount>a.terminal))throw Error('Discount rate must exceed terminal growth.');
@@ -52,6 +54,6 @@ export function reinvestmentHistory(data){
  const wc=y=>['receivables','inventory','payables'].every(k=>Number.isFinite(value(y,k)))?value(y,'receivables')+value(y,'inventory')-value(y,'payables'):null;
  return data.years.map((y,i)=>{const prior=data.years[i-1],currentWC=wc(y),priorWC=wc(prior),gap=prior?(Date.parse(y.start)-Date.parse(prior.end))/86400000:null;
  const delta=currentWC!==null&&priorWC!==null&&gap===1?currentWC-priorWC:null,capex=value(y,'capex'),depreciation=value(y,'depreciation');
- const net=[capex,depreciation,delta].every(Number.isFinite)?capex-depreciation+delta:null;
+ const net=!assessCompany(data).financial&&[capex,depreciation,delta].every(Number.isFinite)?capex-depreciation+delta:null;
  return {year:y,capex,depreciation,currentWC,delta,net,ratio:net!==null&&value(y,'revenue')>0?net/value(y,'revenue'):null};});
 }
