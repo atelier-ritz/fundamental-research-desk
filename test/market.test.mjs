@@ -1,6 +1,6 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {manualQuote,alphaQuote,marketMetrics} from '../src/market.mjs';
-import {createMarketService} from '../src/market-service.mjs';
+import {createMarketService,providerNotice} from '../src/market-service.mjs';
 const now=new Date('2026-10-31T20:00:00Z');
 const quote=manualQuote('MSFT',{price:100,date:'2026-10-30',source:'Test fixture'},now);
 const data={ticker:'MSFT',years:[{end:'2026-06-30',facts:Object.fromEntries(Object.entries({eps:5,cfo:60,capex:20,shares:10}).map(([key,val])=>[key,{val,filed:'2026-07-29'}]))}]};
@@ -28,21 +28,27 @@ test('provider normalization verifies identity, currency and date without invent
  assert.throws(()=>alphaQuote('AAPL',raw,search,now));
 });
 test('unconfigured service never calls a provider and reveals no key',async()=>{
- const service=createMarketService();let calls=0;const fake=()=>{calls++;throw Error('unexpected');};
+ const service=createMarketService({spacingMs:0});let calls=0;const fake=()=>{calls++;throw Error('unexpected');};
  const status=await service(new Request('https://example.test/api/market/status'),{},fake);assert.equal((await status.json()).configured,false);
  const r=await service(new Request('https://example.test/api/market/quote?ticker=MSFT'),{},fake);assert.equal(r.status,503);assert.equal(calls,0);
  assert.equal((await service(new Request('https://example.test/api/market/quote?ticker=BAD!'),{},fake)).status,400);
 });
 test('provider adapter uses official endpoints, caches responses and redacts provider errors',async()=>{
- const service=createMarketService(),env={ALPHA_VANTAGE_API_KEY:'fixture-secret'};let calls=0;
+ const service=createMarketService({spacingMs:0}),env={ALPHA_VANTAGE_API_KEY:'fixture-secret'};let calls=0;
  const fake=async url=>{calls++;const u=new URL(url);assert.equal(u.origin,'https://www.alphavantage.co');assert.equal(u.searchParams.get('apikey'),'fixture-secret');assert.equal(u.searchParams.has('entitlement'),false);return Response.json(u.searchParams.get('function')==='SYMBOL_SEARCH'?search:raw);};
  const request=new Request('https://example.test/api/market/quote?ticker=MSFT');
  const r=await service(request,env,fake);assert.equal(r.status,200);assert.equal((await r.json()).price,100);assert.equal(calls,2);
  await service(request,env,fake);assert.equal(calls,2);
- const failing=createMarketService();const error=await failing(request,env,async()=>Response.json({Information:'fixture-secret account details'}));assert.equal(error.status,502);assert.doesNotMatch(await error.text(),/fixture-secret/);
+ const failing=createMarketService({spacingMs:0});const error=await failing(request,env,async()=>Response.json({Information:'fixture-secret account details'}));assert.equal(error.status,502);assert.doesNotMatch(await error.text(),/fixture-secret/);
 });
 test('scenario price comparison is withheld when model facts were filed later',()=>{
  assert.equal(marketMetrics(data,quote,now).scenarioEligible,true);
  const d=structuredClone(data);d.years[0].facts.revenue={val:1000,filed:'2026-10-31'};
  assert.equal(marketMetrics(d,quote,now).scenarioEligible,false);
+});
+
+test('provider notices have actionable fixed messages and never echo account secrets',()=>{
+ for(const [text,code] of [['Invalid API key fixture-secret','invalid_key'],['Please spread requests 1 per second fixture-secret','rate_limited'],['Our standard limit is 25 requests per day fixture-secret','daily_limit'],['Premium endpoint fixture-secret','plan_required']]){
+ const notice=providerNotice({Information:text});assert.equal(notice.code,code);assert.doesNotMatch(notice.error,/fixture-secret/);
+ }
 });
