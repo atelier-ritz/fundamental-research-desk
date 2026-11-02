@@ -1,2 +1,6 @@
 dist/
 site.tar.gz
+.DS_Store
+.env
+.env.*
+*.pem

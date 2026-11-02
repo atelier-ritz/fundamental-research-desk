@@ -45,17 +45,33 @@ function updateModel(){
 }
 function download(name,content,type){const url=URL.createObjectURL(new Blob([content],{type})),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
 let companyRequest=0;
+let hasLoadedReport=false;
+function setSearchBusy(busy){document.querySelectorAll('#homepage-search button,#search button,.homepage-chip').forEach(b=>b.disabled=busy);$('homepage-search').setAttribute('aria-busy',String(busy));}
+function showHomepage(){
+ companyRequest++;setSearchBusy(false);$('homepage').hidden=false;$('report-shell').hidden=true;document.querySelector('.sidebar').hidden=true;
+ document.title='Fundamental — Company Research';
+}
+function showReport(){$('homepage').hidden=true;$('report-shell').hidden=false;document.querySelector('.sidebar').hidden=false;document.title=data.ticker+' — Fundamental Research';}
 async function loadReport(ticker,historyMode='push'){
- const request=++companyRequest,button=$('search').querySelector('button');
- if(!/^[A-Z][A-Z0-9.\-]{0,9}$/.test(ticker)){$('status').textContent='Enter a valid US stock symbol.';$('report-state').textContent='Retained results — displayed report remains '+data.ticker+'.';$('report-state').hidden=false;return;}
- button.disabled=true;$('status').textContent='Retrieving '+ticker+' filings from SEC EDGAR…';$('report-state').textContent='Loading '+ticker+' · showing retained '+data.ticker+' results until retrieval succeeds.';$('report-state').hidden=false;
- try{const response=await fetch('/api/company?ticker='+encodeURIComponent(ticker)+'&schema='+encodeURIComponent(REPORT_REVISION)+'&refresh=1',{cache:'no-store'});const next=await response.json();if(request!==companyRequest)return;if(!response.ok)throw Error(next.error||'The data service is unavailable.');if(next.schemaVersion!==REPORT_REVISION)throw Error('A stale financial dataset was returned. Reload the page before trying again.');if(next.ticker!==ticker||!Array.isArray(next.years))throw Error('The returned report did not match the requested company.');data=next;forecastBasis=forecastContext(data);assumptions={...forecastBasis.starts};$('market-price').value='';render();if(location.hash)requestAnimationFrame(()=>document.getElementById(location.hash.slice(1))?.scrollIntoView({block:'start'}));$('report-state').hidden=true;$('status').textContent='Loaded '+ticker+' from SEC EDGAR. Retrieved '+data.retrieved.slice(0,10)+' · report revision '+REPORT_REVISION+'. Latest earnings announcement not verified.';
+ const onHomepage=!$('homepage').hidden;
+ if(!/^[A-Z][A-Z0-9.\-]{0,9}$/.test(ticker)){
+  if(onHomepage)$('homepage-status').textContent='Enter a valid US stock symbol.';
+  else{$('status').textContent='Enter a valid US stock symbol.';$('report-state').textContent='Retained results — displayed report remains '+data.ticker+'.';$('report-state').hidden=false;}
+  return;
+ }
+ const request=++companyRequest;setSearchBusy(true);
+ if(onHomepage)$('homepage-status').textContent='Retrieving '+ticker+' from SEC EDGAR…';
+ else{$('status').textContent='Retrieving '+ticker+' filings from SEC EDGAR…';$('report-state').textContent='Loading '+ticker+' · showing retained '+data.ticker+' results until retrieval succeeds.';$('report-state').hidden=false;}
+ try{const response=await fetch('/api/company?ticker='+encodeURIComponent(ticker)+'&schema='+encodeURIComponent(REPORT_REVISION)+'&refresh=1',{cache:'no-store'});const next=await response.json();if(request!==companyRequest)return;if(!response.ok)throw Error(next.error||'The data service is unavailable.');if(next.schemaVersion!==REPORT_REVISION)throw Error('A stale financial dataset was returned. Reload the page before trying again.');if(next.ticker!==ticker||!Array.isArray(next.years))throw Error('The returned report did not match the requested company.');data=next;forecastBasis=forecastContext(data);assumptions={...forecastBasis.starts};$('market-price').value='';showReport();render();hasLoadedReport=true;$('homepage-status').textContent='';$('report-state').hidden=true;$('status').textContent='Loaded '+ticker+' from SEC EDGAR. Retrieved '+data.retrieved.slice(0,10)+' · report revision '+REPORT_REVISION+'. Latest earnings announcement not verified.';
  if(historyMode&&['http:','https:'].includes(location.protocol)){const url=new URL(location.href);url.searchParams.set('ticker',ticker);history[historyMode==='replace'?'replaceState':'pushState']({},'',url);}
- }catch(error){if(request!==companyRequest)return;$('status').textContent='Could not load '+ticker+': '+error.message;$('report-state').textContent='Retained results — this is '+data.ticker+', not the requested '+ticker+'. Figures and dates below belong to '+data.ticker+'.';$('report-state').hidden=false;$('ticker').value=ticker;}
- finally{if(request===companyRequest)button.disabled=false;}
+ if(location.hash)requestAnimationFrame(()=>document.getElementById(location.hash.slice(1))?.scrollIntoView({block:'start'}));else window.scrollTo(0,0);
+ }catch(error){if(request!==companyRequest)return;
+  if(onHomepage)$('homepage-status').textContent='Could not load '+ticker+': '+error.message;
+  else{$('status').textContent='Could not load '+ticker+': '+error.message;$('report-state').textContent='Retained results — this is '+data.ticker+', not the requested '+ticker+'. Figures and dates below belong to '+data.ticker+'.';$('report-state').hidden=false;$('ticker').value=ticker;}
+ }finally{if(request===companyRequest)setSearchBusy(false);}
 }
 $('search').addEventListener('submit',e=>{e.preventDefault();loadReport($('ticker').value.trim().toUpperCase());});
-window.addEventListener('popstate',()=>{const ticker=(new URL(location.href).searchParams.get('ticker')||'MSFT').toUpperCase();if(ticker!==data.ticker)loadReport(ticker,null);});
+window.addEventListener('popstate',()=>{const ticker=new URL(location.href).searchParams.get('ticker');if(!ticker){showHomepage();return;}if(hasLoadedReport&&ticker.toUpperCase()===data.ticker){showReport();return;}loadReport(ticker.trim().toUpperCase(),null);});
 $('chart-toggle').addEventListener('click',e=>{const button=e.target.closest('button');if(!button)return;metric=button.dataset.metric;document.querySelectorAll('[data-metric]').forEach(b=>b.classList.toggle('selected',b===button));drawChart();});
 document.querySelectorAll('[data-scenario]').forEach(button=>button.addEventListener('click',()=>{assumptions=assumptions.segmentModel?{...assumptions,growth:assumptions.segmentModel.growthAnchor+({lower:-.05,base:0,higher:.05}[button.dataset.scenario])}:{...forecastVariants(forecastBasis.starts).find(s=>s.id===button.dataset.scenario).inputs};document.querySelectorAll('[data-scenario]').forEach(b=>b.classList.toggle('selected',b===button));renderSliders();updateModel();}));
 $('reset').addEventListener('click',()=>{assumptions={...forecastBasis.starts};renderCategoryForecast();renderSliders();updateModel();});$('market-price').addEventListener('input',updateModel);
@@ -104,8 +120,6 @@ function renderBusinessChart(){
  $('business-detail').innerHTML='<span class="eyebrow">SELECTED CATEGORY</span><h3>'+esc(s.name)+'</h3><p>'+esc(s.description)+'</p><div class="business-detail-values"><div><span>Annual revenue</span><b>'+bn(s.revenue)+'</b></div><div><span>Share of company revenue</span><b>'+pct(s.revenue/p.totalRevenue)+'</b></div></div>'+(prior?'<p class="business-growth '+trendClass(s.revenue,prior)+'">'+(s.revenue>=prior?'Up ':'Down ')+pct(Math.abs(s.revenue/prior-1))+' from '+bn(prior)+' in the period ended '+esc(p.priorEnd)+'.</p>':'<p class="small-note">A comparable prior-period category value is not included.</p>')+'<div class="business-driver"><span class="eyebrow">'+(p.method==='reviewed'?'OPERATING DRIVERS · FROM THE FILING':'OPERATING DRIVER COVERAGE')+'</span><p>'+esc(s.driver||'Operating-driver commentary has not been reviewed. Read the business and management discussion sections of the source filing.')+'</p></div><a href="'+esc(p.source)+'" target="_blank" rel="noopener">Read the annual report ↗</a>';
  $('business-total').textContent=bn(view.segments.reduce((sum,s)=>sum+s.revenue,0))+' / '+bn(p.totalRevenue);
 }
-
-render();
 
 function forecastInputContext(key){
  const c=forecastBasis;
@@ -241,7 +255,8 @@ function renderSegmentProfits(view){
  const total=data.years.at(-1).facts.operating?.val,all=view.segments.every(s=>Number.isFinite(s.operatingIncome)),sum=all?view.segments.reduce((n,s)=>n+s.operatingIncome,0):null,agrees=all&&Number.isFinite(total)&&Math.abs(sum-total)<=Math.max(1,Math.abs(total)*.000001);
  $('segment-profits').innerHTML=all?'<div class="table-scroll"><table><thead><tr><th>Business</th><th>Revenue share</th><th>Operating income</th><th>Operating margin</th><th>Share of company operating income</th></tr></thead><tbody>'+view.segments.map(s=>'<tr><td>'+esc(s.name)+'</td><td>'+pct(s.revenue/businessProfile.totalRevenue)+'</td><td>'+bn(s.operatingIncome)+'</td><td>'+pct(s.operatingIncome/s.revenue)+'</td><td>'+(total>0?pct(s.operatingIncome/total):'—')+'</td></tr>').join('')+'</tbody></table></div><p class="small-note">'+(agrees?'Segment operating income reconciles to company operating income: '+bn(sum)+'.':'Segment profit does not reconcile to company profit; corporate costs or other adjustments may remain. Segment margin forecasting is withheld.')+' Profit shares can be negative or exceed 100% when other businesses lose money. Source: linked annual filing.</p>':'<p class="small-note">Segment operating income has not been mapped for this view. Revenue shares do not establish profit contribution; no margins are inferred.</p>';
 }
+$('homepage-search').addEventListener('submit',e=>{e.preventDefault();loadReport($('homepage-ticker').value.trim().toUpperCase());});
+document.querySelectorAll('.homepage-chip').forEach(button=>button.addEventListener('click',()=>{$('homepage-ticker').value=button.dataset.ticker;loadReport(button.dataset.ticker);}));
 const requestedTicker=new URL(location.href).searchParams.get('ticker');
-if(!marketState.exported&&requestedTicker)loadReport(requestedTicker.trim().toUpperCase(),'replace');
-
-if(!marketState.exported&&!requestedTicker)$('status').textContent='Bundled '+data.ticker+' snapshot retrieved '+data.retrieved.slice(0,10)+'. Select Analyze to refresh SEC data.';
+if(marketState.exported){showReport();render();hasLoadedReport=true;}
+else{showHomepage();if(requestedTicker!==null){$('homepage-ticker').value=requestedTicker;loadReport(requestedTicker.trim().toUpperCase(),'replace');}}
