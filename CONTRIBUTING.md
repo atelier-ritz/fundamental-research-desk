@@ -2,6 +2,8 @@
 
 Thanks for helping make company research more traceable and understandable. Financial correctness and explicit coverage gaps take priority over additional narrative or ratings.
 
+[Open an issue](https://github.com/atelier-ritz/fundamental-research-desk/issues/new) · [Browse pull requests](https://github.com/atelier-ritz/fundamental-research-desk/pulls)
+
 ## Start with an issue
 
 For a missing or incorrect figure, include:

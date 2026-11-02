@@ -103,9 +103,52 @@ See [methodology](docs/METHODOLOGY.md) and the app's coverage panel before inter
 
 ## Contribute
 
-Data extraction and reconciliation are the highest priorities. Useful contributions include sourced mapping fixes, issuer regression fixtures, safer quarter derivation, reconciled segment disclosures, accessibility improvements and clearer missing-data explanations.
+Contributions are welcome, including documentation and reproducible bug reports. You do not need access to the live hosting account or a paid data key to work locally.
 
-Read **[CONTRIBUTING.md](CONTRIBUTING.md)** for the development workflow and evidence expected in a pull request. Open an issue with a ticker, fiscal period, source filing and reproducible example. Do not include API keys or private account information.
+**[Report a bug or suggest a change](https://github.com/atelier-ritz/fundamental-research-desk/issues/new)** · **[Browse issues](https://github.com/atelier-ritz/fundamental-research-desk/issues)** · **[Read the contribution guide](CONTRIBUTING.md)**
+
+### Your first pull request
+
+1. Fork this repository using GitHub's **Fork** button.
+2. Clone your fork and create a branch:
+
+```bash
+git clone https://github.com/YOUR-USERNAME/fundamental-research-desk.git
+cd fundamental-research-desk
+git switch -c fix/describe-your-change
+```
+
+3. Make a focused change. Edit `src/` for application work; use the source map above to find the relevant module.
+4. Check the result:
+
+```bash
+npm run build
+npm test
+npm run validate
+npm run dev
+```
+
+5. Commit and push your branch to your fork:
+
+```bash
+git add <files-you-changed>
+git commit -m "Describe the problem fixed"
+git push -u origin fix/describe-your-change
+```
+
+6. On GitHub, select **Compare & pull request**. Target this repository's `main` branch. Explain what changed, why, the checks you ran, and any remaining limitations. For financial corrections, include the source filing and exact period; for interface changes, include a screenshot.
+
+Data extraction and reconciliation are the highest priorities. Good starting contributions include:
+
+| Contribution | What to include |
+| --- | --- |
+| Missing or incorrect financial field | Ticker, fiscal period, expected value, original filing link and regression test |
+| Segment coverage | Exact-period revenue/profit figures, source and reconciliation to company totals |
+| Quarterly or cash-flow correction | Independent calculation, matching dates/units, source facts and regression test |
+| Accessibility or mobile issue | Reproduction steps, browser/screen size and before/after screenshots |
+| Documentation | A clear correction or a small example that helps a new user or contributor |
+
+Read **[CONTRIBUTING.md](CONTRIBUTING.md)** before changing accounting logic. Never include API keys or private account information in code, issues or pull requests. A pull request does not automatically deploy to the live site; publication is managed by the maintainer.
 
 ## Deployment and licensing
 
