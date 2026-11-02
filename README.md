@@ -96,6 +96,10 @@ Core financial research needs no paid API key. Automatic end-of-day prices use a
 
 Set the key as a secret in your deployment environment. Never commit it or put it in HTML, browser storage, fixtures, or the hosting manifest. The local dev server currently supplies no provider environment to the Worker, so automatic quotes are disabled locally by default. Provider limits apply; no real-time price or analyst-consensus feed is implied.
 
+## Coverage checks
+
+See the [cross-industry coverage audit](docs/COVERAGE_AUDIT.md) for the eleven-company sample, verified corrections and unresolved extraction gaps. Run `npm run audit` to regenerate the source-linked inventory from saved SEC fixtures; no network access is needed. Passing tests establish the selected extraction behavior, not a full audit of each company.
+
 ## Financial coverage and limitations
 
 The supported path is US GAAP filers with USD facts and compatible annual and quarterly periods. Different companies use different accounting tags and definitions. Adding a synonym without verifying its scope can produce incorrect totals.

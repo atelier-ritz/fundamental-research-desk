@@ -1,11 +1,11 @@
 import {assessCompany} from './suitability.mjs';
 import {normalizeQuarters} from './quarters.mjs';
-export const REPORT_REVISION='2026-11-02.1';
+export const REPORT_REVISION='2026-11-02.2';
 export const TAGS = {
  depreciation:['Depreciation','DepreciationDepletionAndAmortizationPropertyPlantAndEquipment'], receivables:['AccountsReceivableNetCurrent'], inventory:['InventoryNet'], payables:['AccountsPayableCurrent'],
- interest:['InterestExpenseNonoperating','InterestExpense'], leaseInterest:['FinanceLeaseInterestExpense'], dividends:['PaymentsOfDividendsCommonStock','PaymentsOfDividends'], buybacks:['PaymentsForRepurchaseOfCommonStock'], operatingLeases:['OperatingLeaseLiability'], financeLeases:['FinanceLeaseLiability'], maturity1:['LongTermDebtMaturitiesRepaymentsOfPrincipalInNextTwelveMonths'], maturity2:['LongTermDebtMaturitiesRepaymentsOfPrincipalInYearTwo'], maturity3:['LongTermDebtMaturitiesRepaymentsOfPrincipalInYearThree'], maturity4:['LongTermDebtMaturitiesRepaymentsOfPrincipalInYearFour'], maturity5:['LongTermDebtMaturitiesRepaymentsOfPrincipalInYearFive'], maturityAfter5:['LongTermDebtMaturitiesRepaymentsOfPrincipalAfterYearFive'],
+ interest:['InterestExpenseNonoperating','InterestExpense'], leaseInterest:['FinanceLeaseInterestExpense'], dividends:['PaymentsOfDividendsCommonStock','PaymentsOfDividends','PaymentsOfOrdinaryDividends'], buybacks:['PaymentsForRepurchaseOfCommonStock'], operatingLeases:['OperatingLeaseLiability'], financeLeases:['FinanceLeaseLiability'], maturity1:['LongTermDebtMaturitiesRepaymentsOfPrincipalInNextTwelveMonths'], maturity2:['LongTermDebtMaturitiesRepaymentsOfPrincipalInYearTwo'], maturity3:['LongTermDebtMaturitiesRepaymentsOfPrincipalInYearThree'], maturity4:['LongTermDebtMaturitiesRepaymentsOfPrincipalInYearFour'], maturity5:['LongTermDebtMaturitiesRepaymentsOfPrincipalInYearFive'], maturityAfter5:['LongTermDebtMaturitiesRepaymentsOfPrincipalAfterYearFive'],
  revenue:['RevenueFromContractWithCustomerExcludingAssessedTax','Revenues','SalesRevenueNet'],
- pretax:['IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest','IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments'], incomeTax:['IncomeTaxExpenseBenefit'], cost:['CostOfRevenue','CostOfGoodsAndServicesSold'], research:['ResearchAndDevelopmentExpense'], selling:['SellingGeneralAndAdministrativeExpense'], operating:['OperatingIncomeLoss'], net:['NetIncomeLoss'], cfo:['NetCashProvidedByUsedInOperatingActivities'], capex:['PaymentsToAcquirePropertyPlantAndEquipment'],equipmentIntangiblePurchases:['PaymentsToAcquireProductiveAssets'],
+ pretax:['IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest','IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments'], incomeTax:['IncomeTaxExpenseBenefit'], cost:['CostOfRevenue','CostOfGoodsAndServicesSold'], research:['ResearchAndDevelopmentExpense'], selling:['SellingGeneralAndAdministrativeExpense'], operating:['OperatingIncomeLoss'], net:['NetIncomeLoss'],commonIncome:['NetIncomeLossAvailableToCommonStockholdersBasic'], cfo:['NetCashProvidedByUsedInOperatingActivities'], capex:['PaymentsToAcquirePropertyPlantAndEquipment'],equipmentIntangiblePurchases:['PaymentsToAcquireProductiveAssets'],
  cash:['CashAndCashEquivalentsAtCarryingValue'], investments:['ShortTermInvestments','MarketableSecuritiesCurrent'], debtCurrent:['LongTermDebtCurrent','LongTermDebtAndCapitalLeaseObligationsCurrent'], debtLong:['LongTermDebtNoncurrent'], shortDebt:['ShortTermBorrowings','CommercialPaper'], shares:['CommonStockSharesOutstanding'], eps:['EarningsPerShareDiluted'], assets:['Assets'], sbc:['ShareBasedCompensation']
 };
 export function normalize(raw,ticker,meta={}) {
@@ -17,7 +17,7 @@ export function normalize(raw,ticker,meta={}) {
   // Amazon labels this broader standard tag as cash purchases of property and equipment.
   const tags=key==='capex'&&Number(raw.cik)===1018724?['PaymentsToAcquirePropertyPlantAndEquipment','PaymentsToAcquireProductiveAssets']:TAGS[key];
   for(const tag of tags) {
-   const list=(gaap[tag]?.units?.[unit]||[]).filter(f=>['10-K','10-K/A','10-Q','10-Q/A'].includes(f.form)&&f.filed<=cutoff&&f.end===end&&(start?f.start===start:!f.start));
+   const list=(gaap[tag]?.units?.[unit]||[]).filter(f=>['10-K','10-K/A','10-Q','10-Q/A'].includes(f.form)&&f.filed<=cutoff&&f.end<=cutoff&&Number.isFinite(f.val)&&f.end===end&&(start?f.start===start:!f.start));
    list.sort((a,b)=>b.filed.localeCompare(a.filed));
    if(list.length){const f=list[0];return {...f,tag,url:'https://www.sec.gov/Archives/edgar/data/'+Number(raw.cik)+'/'+f.accn.replaceAll('-','')+'/'+f.accn+'-index.html'};}
   }return null;
@@ -25,7 +25,7 @@ export function normalize(raw,ticker,meta={}) {
  const periods=new Map();
  for(const tag of TAGS.revenue) for(const f of gaap[tag]?.units?.USD||[]) {
   const days=(Date.parse(f.end)-Date.parse(f.start))/86400000;
-  if(['10-K','10-K/A'].includes(f.form)&&f.filed<=cutoff&&days>=330&&days<=380) periods.set(f.end,{start:f.start,end:f.end});
+  if(['10-K','10-K/A'].includes(f.form)&&f.filed<=cutoff&&f.end<=cutoff&&Number.isFinite(f.val)&&days>=330&&days<=380) periods.set(f.end,{start:f.start,end:f.end});
  }
  const years=[...periods.values()].sort((a,b)=>a.end.localeCompare(b.end)).slice(-5).map(p=>{
   const facts={}; for(const k of Object.keys(TAGS))facts[k]=pick(k,p.end,['receivables','inventory','payables','cash','investments','debtCurrent','debtLong','shortDebt','shares','assets','operatingLeases','financeLeases','maturity1','maturity2','maturity3','maturity4','maturity5','maturityAfter5'].includes(k)?null:p.start);

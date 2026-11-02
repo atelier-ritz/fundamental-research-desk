@@ -1,0 +1,958 @@
+{
+  "fixtureDate": "2026-11-02",
+  "scope": "Selected-field SEC feed regression checks; original-filing spot checks are documented separately. Not a full statement or company audit.",
+  "companies": [
+    {
+      "ticker": "CAT",
+      "name": "CATERPILLAR INC",
+      "annualStart": "2025-01-01",
+      "annualEnd": "2025-12-31",
+      "financialModelWithheld": false,
+      "latestSupportedQuarter": "2026-06-30",
+      "latestDirectlyReportedQuarter": "2026-06-30",
+      "fields": {
+        "revenue": {
+          "value": 67589000000,
+          "tag": "Revenues",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-02-13",
+          "source": "https://www.sec.gov/Archives/edgar/data/18230/000001823026000008/0000018230-26-000008-index.html"
+        },
+        "operating": {
+          "value": 11151000000,
+          "tag": "OperatingIncomeLoss",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-02-13",
+          "source": "https://www.sec.gov/Archives/edgar/data/18230/000001823026000008/0000018230-26-000008-index.html"
+        },
+        "net": null,
+        "commonIncome": {
+          "value": 8884000000,
+          "tag": "NetIncomeLossAvailableToCommonStockholdersBasic",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-02-13",
+          "source": "https://www.sec.gov/Archives/edgar/data/18230/000001823026000008/0000018230-26-000008-index.html"
+        },
+        "cfo": {
+          "value": 11739000000,
+          "tag": "NetCashProvidedByUsedInOperatingActivities",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-02-13",
+          "source": "https://www.sec.gov/Archives/edgar/data/18230/000001823026000008/0000018230-26-000008-index.html"
+        },
+        "capex": {
+          "value": 2821000000,
+          "tag": "PaymentsToAcquirePropertyPlantAndEquipment",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-02-13",
+          "source": "https://www.sec.gov/Archives/edgar/data/18230/000001823026000008/0000018230-26-000008-index.html"
+        },
+        "cash": {
+          "value": 9980000000,
+          "tag": "CashAndCashEquivalentsAtCarryingValue",
+          "start": null,
+          "end": "2025-12-31",
+          "filed": "2026-08-05",
+          "source": "https://www.sec.gov/Archives/edgar/data/18230/000001823026000046/0000018230-26-000046-index.html"
+        },
+        "investments": null,
+        "debtCurrent": null,
+        "debtLong": {
+          "value": 30696000000,
+          "tag": "LongTermDebtNoncurrent",
+          "start": null,
+          "end": "2025-12-31",
+          "filed": "2026-02-13",
+          "source": "https://www.sec.gov/Archives/edgar/data/18230/000001823026000008/0000018230-26-000008-index.html"
+        },
+        "shortDebt": {
+          "value": 5514000000,
+          "tag": "ShortTermBorrowings",
+          "start": null,
+          "end": "2025-12-31",
+          "filed": "2026-02-13",
+          "source": "https://www.sec.gov/Archives/edgar/data/18230/000001823026000008/0000018230-26-000008-index.html"
+        },
+        "dividends": {
+          "value": 2749000000,
+          "tag": "PaymentsOfDividendsCommonStock",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-02-13",
+          "source": "https://www.sec.gov/Archives/edgar/data/18230/000001823026000008/0000018230-26-000008-index.html"
+        },
+        "shares": {
+          "value": 465300000,
+          "tag": "CommonStockSharesOutstanding",
+          "start": null,
+          "end": "2025-12-31",
+          "filed": "2026-02-13",
+          "source": "https://www.sec.gov/Archives/edgar/data/18230/000001823026000008/0000018230-26-000008-index.html"
+        }
+      },
+      "source": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000018230.json",
+      "metadataSource": "https://data.sec.gov/submissions/CIK0000018230.json"
+    },
+    {
+      "ticker": "COST",
+      "name": "COSTCO WHOLESALE CORP /NEW",
+      "annualStart": "2025-09-01",
+      "annualEnd": "2026-08-30",
+      "financialModelWithheld": false,
+      "latestSupportedQuarter": "2026-08-30",
+      "latestDirectlyReportedQuarter": "2026-05-10",
+      "fields": {
+        "revenue": {
+          "value": 303154000000,
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+          "start": "2025-09-01",
+          "end": "2026-08-30",
+          "filed": "2026-10-07",
+          "source": "https://www.sec.gov/Archives/edgar/data/909832/000090983226000093/0000909832-26-000093-index.html"
+        },
+        "operating": {
+          "value": 11685000000,
+          "tag": "OperatingIncomeLoss",
+          "start": "2025-09-01",
+          "end": "2026-08-30",
+          "filed": "2026-10-07",
+          "source": "https://www.sec.gov/Archives/edgar/data/909832/000090983226000093/0000909832-26-000093-index.html"
+        },
+        "net": {
+          "value": 9226000000,
+          "tag": "NetIncomeLoss",
+          "start": "2025-09-01",
+          "end": "2026-08-30",
+          "filed": "2026-10-07",
+          "source": "https://www.sec.gov/Archives/edgar/data/909832/000090983226000093/0000909832-26-000093-index.html"
+        },
+        "commonIncome": null,
+        "cfo": {
+          "value": 15817000000,
+          "tag": "NetCashProvidedByUsedInOperatingActivities",
+          "start": "2025-09-01",
+          "end": "2026-08-30",
+          "filed": "2026-10-07",
+          "source": "https://www.sec.gov/Archives/edgar/data/909832/000090983226000093/0000909832-26-000093-index.html"
+        },
+        "capex": {
+          "value": 6435000000,
+          "tag": "PaymentsToAcquirePropertyPlantAndEquipment",
+          "start": "2025-09-01",
+          "end": "2026-08-30",
+          "filed": "2026-10-07",
+          "source": "https://www.sec.gov/Archives/edgar/data/909832/000090983226000093/0000909832-26-000093-index.html"
+        },
+        "cash": {
+          "value": 20207000000,
+          "tag": "CashAndCashEquivalentsAtCarryingValue",
+          "start": null,
+          "end": "2026-08-30",
+          "filed": "2026-10-07",
+          "source": "https://www.sec.gov/Archives/edgar/data/909832/000090983226000093/0000909832-26-000093-index.html"
+        },
+        "investments": {
+          "value": 1094000000,
+          "tag": "ShortTermInvestments",
+          "start": null,
+          "end": "2026-08-30",
+          "filed": "2026-10-07",
+          "source": "https://www.sec.gov/Archives/edgar/data/909832/000090983226000093/0000909832-26-000093-index.html"
+        },
+        "debtCurrent": {
+          "value": 2248000000,
+          "tag": "LongTermDebtCurrent",
+          "start": null,
+          "end": "2026-08-30",
+          "filed": "2026-10-07",
+          "source": "https://www.sec.gov/Archives/edgar/data/909832/000090983226000093/0000909832-26-000093-index.html"
+        },
+        "debtLong": {
+          "value": 3914000000,
+          "tag": "LongTermDebtNoncurrent",
+          "start": null,
+          "end": "2026-08-30",
+          "filed": "2026-10-07",
+          "source": "https://www.sec.gov/Archives/edgar/data/909832/000090983226000093/0000909832-26-000093-index.html"
+        },
+        "shortDebt": null,
+        "dividends": {
+          "value": 2458000000,
+          "tag": "PaymentsOfDividendsCommonStock",
+          "start": "2025-09-01",
+          "end": "2026-08-30",
+          "filed": "2026-10-07",
+          "source": "https://www.sec.gov/Archives/edgar/data/909832/000090983226000093/0000909832-26-000093-index.html"
+        },
+        "shares": {
+          "value": 443266000,
+          "tag": "CommonStockSharesOutstanding",
+          "start": null,
+          "end": "2026-08-30",
+          "filed": "2026-10-07",
+          "source": "https://www.sec.gov/Archives/edgar/data/909832/000090983226000093/0000909832-26-000093-index.html"
+        }
+      },
+      "source": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000909832.json",
+      "metadataSource": "https://data.sec.gov/submissions/CIK0000909832.json"
+    },
+    {
+      "ticker": "GOOGL",
+      "name": "Alphabet Inc.",
+      "annualStart": "2025-01-01",
+      "annualEnd": "2025-12-31",
+      "financialModelWithheld": false,
+      "latestSupportedQuarter": "2026-09-30",
+      "latestDirectlyReportedQuarter": "2026-09-30",
+      "fields": {
+        "revenue": {
+          "value": 402836000000,
+          "tag": "Revenues",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-02-05",
+          "source": "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000018/0001652044-26-000018-index.html"
+        },
+        "operating": {
+          "value": 129039000000,
+          "tag": "OperatingIncomeLoss",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-02-05",
+          "source": "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000018/0001652044-26-000018-index.html"
+        },
+        "net": {
+          "value": 132170000000,
+          "tag": "NetIncomeLoss",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-02-05",
+          "source": "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000018/0001652044-26-000018-index.html"
+        },
+        "commonIncome": {
+          "value": 132170000000,
+          "tag": "NetIncomeLossAvailableToCommonStockholdersBasic",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-02-05",
+          "source": "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000018/0001652044-26-000018-index.html"
+        },
+        "cfo": {
+          "value": 164713000000,
+          "tag": "NetCashProvidedByUsedInOperatingActivities",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-02-05",
+          "source": "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000018/0001652044-26-000018-index.html"
+        },
+        "capex": {
+          "value": 91447000000,
+          "tag": "PaymentsToAcquirePropertyPlantAndEquipment",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-02-05",
+          "source": "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000018/0001652044-26-000018-index.html"
+        },
+        "cash": {
+          "value": 30708000000,
+          "tag": "CashAndCashEquivalentsAtCarryingValue",
+          "start": null,
+          "end": "2025-12-31",
+          "filed": "2026-10-29",
+          "source": "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000084/0001652044-26-000084-index.html"
+        },
+        "investments": {
+          "value": 96135000000,
+          "tag": "MarketableSecuritiesCurrent",
+          "start": null,
+          "end": "2025-12-31",
+          "filed": "2026-10-29",
+          "source": "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000084/0001652044-26-000084-index.html"
+        },
+        "debtCurrent": {
+          "value": 1996000000,
+          "tag": "LongTermDebtCurrent",
+          "start": null,
+          "end": "2025-12-31",
+          "filed": "2026-10-29",
+          "source": "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000084/0001652044-26-000084-index.html"
+        },
+        "debtLong": {
+          "value": 46547000000,
+          "tag": "LongTermDebtNoncurrent",
+          "start": null,
+          "end": "2025-12-31",
+          "filed": "2026-10-29",
+          "source": "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000084/0001652044-26-000084-index.html"
+        },
+        "shortDebt": {
+          "value": 0,
+          "tag": "CommercialPaper",
+          "start": null,
+          "end": "2025-12-31",
+          "filed": "2026-10-29",
+          "source": "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000084/0001652044-26-000084-index.html"
+        },
+        "dividends": {
+          "value": 10049000000,
+          "tag": "PaymentsOfDividends",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-02-05",
+          "source": "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000018/0001652044-26-000018-index.html"
+        },
+        "shares": {
+          "value": 12088000000,
+          "tag": "CommonStockSharesOutstanding",
+          "start": null,
+          "end": "2025-12-31",
+          "filed": "2026-10-29",
+          "source": "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000084/0001652044-26-000084-index.html"
+        }
+      },
+      "source": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001652044.json",
+      "metadataSource": "https://data.sec.gov/submissions/CIK0001652044.json"
+    },
+    {
+      "ticker": "JNJ",
+      "name": "Johnson & Johnson",
+      "annualStart": "2024-12-30",
+      "annualEnd": "2025-12-28",
+      "financialModelWithheld": false,
+      "latestSupportedQuarter": "2026-09-27",
+      "latestDirectlyReportedQuarter": "2026-09-27",
+      "fields": {
+        "revenue": {
+          "value": 94193000000,
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+          "start": "2024-12-30",
+          "end": "2025-12-28",
+          "filed": "2026-02-11",
+          "source": "https://www.sec.gov/Archives/edgar/data/200406/000020040626000016/0000200406-26-000016-index.html"
+        },
+        "operating": null,
+        "net": {
+          "value": 26804000000,
+          "tag": "NetIncomeLoss",
+          "start": "2024-12-30",
+          "end": "2025-12-28",
+          "filed": "2026-02-11",
+          "source": "https://www.sec.gov/Archives/edgar/data/200406/000020040626000016/0000200406-26-000016-index.html"
+        },
+        "commonIncome": null,
+        "cfo": {
+          "value": 24530000000,
+          "tag": "NetCashProvidedByUsedInOperatingActivities",
+          "start": "2024-12-30",
+          "end": "2025-12-28",
+          "filed": "2026-02-11",
+          "source": "https://www.sec.gov/Archives/edgar/data/200406/000020040626000016/0000200406-26-000016-index.html"
+        },
+        "capex": {
+          "value": 4832000000,
+          "tag": "PaymentsToAcquirePropertyPlantAndEquipment",
+          "start": "2024-12-30",
+          "end": "2025-12-28",
+          "filed": "2026-02-11",
+          "source": "https://www.sec.gov/Archives/edgar/data/200406/000020040626000016/0000200406-26-000016-index.html"
+        },
+        "cash": {
+          "value": 19709000000,
+          "tag": "CashAndCashEquivalentsAtCarryingValue",
+          "start": null,
+          "end": "2025-12-28",
+          "filed": "2026-10-21",
+          "source": "https://www.sec.gov/Archives/edgar/data/200406/000020040626000197/0000200406-26-000197-index.html"
+        },
+        "investments": {
+          "value": 393000000,
+          "tag": "MarketableSecuritiesCurrent",
+          "start": null,
+          "end": "2025-12-28",
+          "filed": "2026-10-21",
+          "source": "https://www.sec.gov/Archives/edgar/data/200406/000020040626000197/0000200406-26-000197-index.html"
+        },
+        "debtCurrent": {
+          "value": 2000000000,
+          "tag": "LongTermDebtCurrent",
+          "start": null,
+          "end": "2025-12-28",
+          "filed": "2026-02-11",
+          "source": "https://www.sec.gov/Archives/edgar/data/200406/000020040626000016/0000200406-26-000016-index.html"
+        },
+        "debtLong": {
+          "value": 39438000000,
+          "tag": "LongTermDebtNoncurrent",
+          "start": null,
+          "end": "2025-12-28",
+          "filed": "2026-10-21",
+          "source": "https://www.sec.gov/Archives/edgar/data/200406/000020040626000197/0000200406-26-000197-index.html"
+        },
+        "shortDebt": {
+          "value": 8495000000,
+          "tag": "ShortTermBorrowings",
+          "start": null,
+          "end": "2025-12-28",
+          "filed": "2026-10-21",
+          "source": "https://www.sec.gov/Archives/edgar/data/200406/000020040626000197/0000200406-26-000197-index.html"
+        },
+        "dividends": {
+          "value": 12381000000,
+          "tag": "PaymentsOfOrdinaryDividends",
+          "start": "2024-12-30",
+          "end": "2025-12-28",
+          "filed": "2026-02-11",
+          "source": "https://www.sec.gov/Archives/edgar/data/200406/000020040626000016/0000200406-26-000016-index.html"
+        },
+        "shares": null
+      },
+      "source": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000200406.json",
+      "metadataSource": "https://data.sec.gov/submissions/CIK0000200406.json"
+    },
+    {
+      "ticker": "JPM",
+      "name": "JPMORGAN CHASE & CO",
+      "annualStart": "2025-01-01",
+      "annualEnd": "2025-12-31",
+      "financialModelWithheld": true,
+      "latestSupportedQuarter": null,
+      "latestDirectlyReportedQuarter": null,
+      "fields": {
+        "revenue": {
+          "value": 182447000000,
+          "tag": "Revenues",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-02-13",
+          "source": "https://www.sec.gov/Archives/edgar/data/19617/000162828026008131/0001628280-26-008131-index.html"
+        },
+        "operating": null,
+        "net": {
+          "value": 57048000000,
+          "tag": "NetIncomeLoss",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-02-13",
+          "source": "https://www.sec.gov/Archives/edgar/data/19617/000162828026008131/0001628280-26-008131-index.html"
+        },
+        "commonIncome": {
+          "value": 55681000000,
+          "tag": "NetIncomeLossAvailableToCommonStockholdersBasic",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-02-13",
+          "source": "https://www.sec.gov/Archives/edgar/data/19617/000162828026008131/0001628280-26-008131-index.html"
+        },
+        "cfo": {
+          "value": -147782000000,
+          "tag": "NetCashProvidedByUsedInOperatingActivities",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-02-13",
+          "source": "https://www.sec.gov/Archives/edgar/data/19617/000162828026008131/0001628280-26-008131-index.html"
+        },
+        "capex": null,
+        "cash": null,
+        "investments": null,
+        "debtCurrent": null,
+        "debtLong": null,
+        "shortDebt": {
+          "value": 64776000000,
+          "tag": "ShortTermBorrowings",
+          "start": null,
+          "end": "2025-12-31",
+          "filed": "2026-08-06",
+          "source": "https://www.sec.gov/Archives/edgar/data/19617/000162828026054343/0001628280-26-054343-index.html"
+        },
+        "dividends": {
+          "value": 16625000000,
+          "tag": "PaymentsOfDividends",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-02-13",
+          "source": "https://www.sec.gov/Archives/edgar/data/19617/000162828026008131/0001628280-26-008131-index.html"
+        },
+        "shares": {
+          "value": 2696200000,
+          "tag": "CommonStockSharesOutstanding",
+          "start": null,
+          "end": "2025-12-31",
+          "filed": "2026-02-13",
+          "source": "https://www.sec.gov/Archives/edgar/data/19617/000162828026008131/0001628280-26-008131-index.html"
+        }
+      },
+      "source": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000019617.json",
+      "metadataSource": "https://data.sec.gov/submissions/CIK0000019617.json"
+    },
+    {
+      "ticker": "KO",
+      "name": "COCA COLA CO",
+      "annualStart": "2025-01-01",
+      "annualEnd": "2025-12-31",
+      "financialModelWithheld": false,
+      "latestSupportedQuarter": "2026-10-02",
+      "latestDirectlyReportedQuarter": "2026-10-02",
+      "fields": {
+        "revenue": {
+          "value": 47941000000,
+          "tag": "Revenues",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-02-20",
+          "source": "https://www.sec.gov/Archives/edgar/data/21344/000162828026010047/0001628280-26-010047-index.html"
+        },
+        "operating": {
+          "value": 13762000000,
+          "tag": "OperatingIncomeLoss",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-02-20",
+          "source": "https://www.sec.gov/Archives/edgar/data/21344/000162828026010047/0001628280-26-010047-index.html"
+        },
+        "net": {
+          "value": 13107000000,
+          "tag": "NetIncomeLoss",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-02-20",
+          "source": "https://www.sec.gov/Archives/edgar/data/21344/000162828026010047/0001628280-26-010047-index.html"
+        },
+        "commonIncome": null,
+        "cfo": {
+          "value": 7408000000,
+          "tag": "NetCashProvidedByUsedInOperatingActivities",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-02-20",
+          "source": "https://www.sec.gov/Archives/edgar/data/21344/000162828026010047/0001628280-26-010047-index.html"
+        },
+        "capex": {
+          "value": 2112000000,
+          "tag": "PaymentsToAcquirePropertyPlantAndEquipment",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-02-20",
+          "source": "https://www.sec.gov/Archives/edgar/data/21344/000162828026010047/0001628280-26-010047-index.html"
+        },
+        "cash": {
+          "value": 10270000000,
+          "tag": "CashAndCashEquivalentsAtCarryingValue",
+          "start": null,
+          "end": "2025-12-31",
+          "filed": "2026-10-28",
+          "source": "https://www.sec.gov/Archives/edgar/data/21344/000162828026067844/0001628280-26-067844-index.html"
+        },
+        "investments": null,
+        "debtCurrent": {
+          "value": 1822000000,
+          "tag": "LongTermDebtAndCapitalLeaseObligationsCurrent",
+          "start": null,
+          "end": "2025-12-31",
+          "filed": "2026-10-28",
+          "source": "https://www.sec.gov/Archives/edgar/data/21344/000162828026067844/0001628280-26-067844-index.html"
+        },
+        "debtLong": null,
+        "shortDebt": {
+          "value": 1495000000,
+          "tag": "CommercialPaper",
+          "start": null,
+          "end": "2025-12-31",
+          "filed": "2026-10-28",
+          "source": "https://www.sec.gov/Archives/edgar/data/21344/000162828026067844/0001628280-26-067844-index.html"
+        },
+        "dividends": {
+          "value": 8779000000,
+          "tag": "PaymentsOfDividends",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-02-20",
+          "source": "https://www.sec.gov/Archives/edgar/data/21344/000162828026010047/0001628280-26-010047-index.html"
+        },
+        "shares": null
+      },
+      "source": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000021344.json",
+      "metadataSource": "https://data.sec.gov/submissions/CIK0000021344.json"
+    },
+    {
+      "ticker": "META",
+      "name": "Meta Platforms, Inc.",
+      "annualStart": "2025-01-01",
+      "annualEnd": "2025-12-31",
+      "financialModelWithheld": false,
+      "latestSupportedQuarter": "2026-09-30",
+      "latestDirectlyReportedQuarter": "2026-09-30",
+      "fields": {
+        "revenue": {
+          "value": 200966000000,
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-01-29",
+          "source": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/0001628280-26-003942-index.html"
+        },
+        "operating": {
+          "value": 83276000000,
+          "tag": "OperatingIncomeLoss",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-01-29",
+          "source": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/0001628280-26-003942-index.html"
+        },
+        "net": {
+          "value": 60458000000,
+          "tag": "NetIncomeLoss",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-01-29",
+          "source": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/0001628280-26-003942-index.html"
+        },
+        "commonIncome": null,
+        "cfo": {
+          "value": 115800000000,
+          "tag": "NetCashProvidedByUsedInOperatingActivities",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-01-29",
+          "source": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/0001628280-26-003942-index.html"
+        },
+        "capex": {
+          "value": 69691000000,
+          "tag": "PaymentsToAcquirePropertyPlantAndEquipment",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-01-29",
+          "source": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/0001628280-26-003942-index.html"
+        },
+        "cash": {
+          "value": 35873000000,
+          "tag": "CashAndCashEquivalentsAtCarryingValue",
+          "start": null,
+          "end": "2025-12-31",
+          "filed": "2026-10-22",
+          "source": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026066773/0001628280-26-066773-index.html"
+        },
+        "investments": {
+          "value": 45719000000,
+          "tag": "MarketableSecuritiesCurrent",
+          "start": null,
+          "end": "2025-12-31",
+          "filed": "2026-10-22",
+          "source": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026066773/0001628280-26-066773-index.html"
+        },
+        "debtCurrent": {
+          "value": 0,
+          "tag": "LongTermDebtCurrent",
+          "start": null,
+          "end": "2025-12-31",
+          "filed": "2026-10-22",
+          "source": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026066773/0001628280-26-066773-index.html"
+        },
+        "debtLong": {
+          "value": 58744000000,
+          "tag": "LongTermDebtNoncurrent",
+          "start": null,
+          "end": "2025-12-31",
+          "filed": "2026-10-22",
+          "source": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026066773/0001628280-26-066773-index.html"
+        },
+        "shortDebt": null,
+        "dividends": {
+          "value": 5324000000,
+          "tag": "PaymentsOfDividends",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-01-29",
+          "source": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/0001628280-26-003942-index.html"
+        },
+        "shares": null
+      },
+      "source": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001326801.json",
+      "metadataSource": "https://data.sec.gov/submissions/CIK0001326801.json"
+    },
+    {
+      "ticker": "TSLA",
+      "name": "Tesla, Inc.",
+      "annualStart": "2025-01-01",
+      "annualEnd": "2025-12-31",
+      "financialModelWithheld": false,
+      "latestSupportedQuarter": "2026-09-30",
+      "latestDirectlyReportedQuarter": "2026-09-30",
+      "fields": {
+        "revenue": {
+          "value": 94827000000,
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-01-29",
+          "source": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026003952/0001628280-26-003952-index.html"
+        },
+        "operating": {
+          "value": 4355000000,
+          "tag": "OperatingIncomeLoss",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-01-29",
+          "source": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026003952/0001628280-26-003952-index.html"
+        },
+        "net": {
+          "value": 3794000000,
+          "tag": "NetIncomeLoss",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-01-29",
+          "source": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026003952/0001628280-26-003952-index.html"
+        },
+        "commonIncome": {
+          "value": 3794000000,
+          "tag": "NetIncomeLossAvailableToCommonStockholdersBasic",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-01-29",
+          "source": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026003952/0001628280-26-003952-index.html"
+        },
+        "cfo": {
+          "value": 14747000000,
+          "tag": "NetCashProvidedByUsedInOperatingActivities",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-01-29",
+          "source": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026003952/0001628280-26-003952-index.html"
+        },
+        "capex": {
+          "value": 8527000000,
+          "tag": "PaymentsToAcquirePropertyPlantAndEquipment",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-01-29",
+          "source": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026003952/0001628280-26-003952-index.html"
+        },
+        "cash": {
+          "value": 16513000000,
+          "tag": "CashAndCashEquivalentsAtCarryingValue",
+          "start": null,
+          "end": "2025-12-31",
+          "filed": "2026-10-22",
+          "source": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026066775/0001628280-26-066775-index.html"
+        },
+        "investments": {
+          "value": 27546000000,
+          "tag": "ShortTermInvestments",
+          "start": null,
+          "end": "2025-12-31",
+          "filed": "2026-10-22",
+          "source": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026066775/0001628280-26-066775-index.html"
+        },
+        "debtCurrent": null,
+        "debtLong": null,
+        "shortDebt": null,
+        "dividends": null,
+        "shares": {
+          "value": 3751000000,
+          "tag": "CommonStockSharesOutstanding",
+          "start": null,
+          "end": "2025-12-31",
+          "filed": "2026-10-22",
+          "source": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026066775/0001628280-26-066775-index.html"
+        }
+      },
+      "source": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001318605.json",
+      "metadataSource": "https://data.sec.gov/submissions/CIK0001318605.json"
+    },
+    {
+      "ticker": "TSM",
+      "error": "US GAAP financial facts are unavailable. This version supports US GAAP filers.",
+      "source": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001046179.json",
+      "metadataSource": "https://data.sec.gov/submissions/CIK0001046179.json"
+    },
+    {
+      "ticker": "WMT",
+      "name": "Walmart Inc.",
+      "annualStart": "2025-02-01",
+      "annualEnd": "2026-01-31",
+      "financialModelWithheld": false,
+      "latestSupportedQuarter": "2026-07-31",
+      "latestDirectlyReportedQuarter": "2026-07-31",
+      "fields": {
+        "revenue": {
+          "value": 706413000000,
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+          "start": "2025-02-01",
+          "end": "2026-01-31",
+          "filed": "2026-03-13",
+          "source": "https://www.sec.gov/Archives/edgar/data/104169/000010416926000055/0000104169-26-000055-index.html"
+        },
+        "operating": {
+          "value": 29825000000,
+          "tag": "OperatingIncomeLoss",
+          "start": "2025-02-01",
+          "end": "2026-01-31",
+          "filed": "2026-03-13",
+          "source": "https://www.sec.gov/Archives/edgar/data/104169/000010416926000055/0000104169-26-000055-index.html"
+        },
+        "net": {
+          "value": 21893000000,
+          "tag": "NetIncomeLoss",
+          "start": "2025-02-01",
+          "end": "2026-01-31",
+          "filed": "2026-03-13",
+          "source": "https://www.sec.gov/Archives/edgar/data/104169/000010416926000055/0000104169-26-000055-index.html"
+        },
+        "commonIncome": null,
+        "cfo": {
+          "value": 41565000000,
+          "tag": "NetCashProvidedByUsedInOperatingActivities",
+          "start": "2025-02-01",
+          "end": "2026-01-31",
+          "filed": "2026-03-13",
+          "source": "https://www.sec.gov/Archives/edgar/data/104169/000010416926000055/0000104169-26-000055-index.html"
+        },
+        "capex": {
+          "value": 26642000000,
+          "tag": "PaymentsToAcquirePropertyPlantAndEquipment",
+          "start": "2025-02-01",
+          "end": "2026-01-31",
+          "filed": "2026-03-13",
+          "source": "https://www.sec.gov/Archives/edgar/data/104169/000010416926000055/0000104169-26-000055-index.html"
+        },
+        "cash": {
+          "value": 10727000000,
+          "tag": "CashAndCashEquivalentsAtCarryingValue",
+          "start": null,
+          "end": "2026-01-31",
+          "filed": "2026-08-28",
+          "source": "https://www.sec.gov/Archives/edgar/data/104169/000010416926000154/0000104169-26-000154-index.html"
+        },
+        "investments": null,
+        "debtCurrent": {
+          "value": 3542000000,
+          "tag": "LongTermDebtCurrent",
+          "start": null,
+          "end": "2026-01-31",
+          "filed": "2026-08-28",
+          "source": "https://www.sec.gov/Archives/edgar/data/104169/000010416926000154/0000104169-26-000154-index.html"
+        },
+        "debtLong": {
+          "value": 34624000000,
+          "tag": "LongTermDebtNoncurrent",
+          "start": null,
+          "end": "2026-01-31",
+          "filed": "2026-08-28",
+          "source": "https://www.sec.gov/Archives/edgar/data/104169/000010416926000154/0000104169-26-000154-index.html"
+        },
+        "shortDebt": {
+          "value": 6596000000,
+          "tag": "ShortTermBorrowings",
+          "start": null,
+          "end": "2026-01-31",
+          "filed": "2026-08-28",
+          "source": "https://www.sec.gov/Archives/edgar/data/104169/000010416926000154/0000104169-26-000154-index.html"
+        },
+        "dividends": {
+          "value": 7507000000,
+          "tag": "PaymentsOfDividendsCommonStock",
+          "start": "2025-02-01",
+          "end": "2026-01-31",
+          "filed": "2026-03-13",
+          "source": "https://www.sec.gov/Archives/edgar/data/104169/000010416926000055/0000104169-26-000055-index.html"
+        },
+        "shares": null
+      },
+      "source": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000104169.json",
+      "metadataSource": "https://data.sec.gov/submissions/CIK0000104169.json"
+    },
+    {
+      "ticker": "XOM",
+      "name": "Exxon Mobil Corporation",
+      "annualStart": "2025-01-01",
+      "annualEnd": "2025-12-31",
+      "financialModelWithheld": false,
+      "latestSupportedQuarter": "2026-03-31",
+      "latestDirectlyReportedQuarter": "2026-03-31",
+      "fields": {
+        "revenue": {
+          "value": 332238000000,
+          "tag": "Revenues",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-02-18",
+          "source": "https://www.sec.gov/Archives/edgar/data/34088/000003408826000045/0000034088-26-000045-index.html"
+        },
+        "operating": null,
+        "net": {
+          "value": 28844000000,
+          "tag": "NetIncomeLoss",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-02-18",
+          "source": "https://www.sec.gov/Archives/edgar/data/34088/000003408826000045/0000034088-26-000045-index.html"
+        },
+        "commonIncome": null,
+        "cfo": {
+          "value": 51970000000,
+          "tag": "NetCashProvidedByUsedInOperatingActivities",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-02-18",
+          "source": "https://www.sec.gov/Archives/edgar/data/34088/000003408826000045/0000034088-26-000045-index.html"
+        },
+        "capex": {
+          "value": 28358000000,
+          "tag": "PaymentsToAcquirePropertyPlantAndEquipment",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-02-18",
+          "source": "https://www.sec.gov/Archives/edgar/data/34088/000003408826000045/0000034088-26-000045-index.html"
+        },
+        "cash": {
+          "value": 10681000000,
+          "tag": "CashAndCashEquivalentsAtCarryingValue",
+          "start": null,
+          "end": "2025-12-31",
+          "filed": "2026-05-04",
+          "source": "https://www.sec.gov/Archives/edgar/data/34088/000003408826000067/0000034088-26-000067-index.html"
+        },
+        "investments": null,
+        "debtCurrent": {
+          "value": 6200000000,
+          "tag": "LongTermDebtCurrent",
+          "start": null,
+          "end": "2025-12-31",
+          "filed": "2026-02-18",
+          "source": "https://www.sec.gov/Archives/edgar/data/34088/000003408826000045/0000034088-26-000045-index.html"
+        },
+        "debtLong": null,
+        "shortDebt": {
+          "value": 3059000000,
+          "tag": "CommercialPaper",
+          "start": null,
+          "end": "2025-12-31",
+          "filed": "2026-02-18",
+          "source": "https://www.sec.gov/Archives/edgar/data/34088/000003408826000045/0000034088-26-000045-index.html"
+        },
+        "dividends": {
+          "value": 17231000000,
+          "tag": "PaymentsOfDividendsCommonStock",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "filed": "2026-02-18",
+          "source": "https://www.sec.gov/Archives/edgar/data/34088/000003408826000045/0000034088-26-000045-index.html"
+        },
+        "shares": {
+          "value": 4179000000,
+          "tag": "CommonStockSharesOutstanding",
+          "start": null,
+          "end": "2025-12-31",
+          "filed": "2026-05-04",
+          "source": "https://www.sec.gov/Archives/edgar/data/34088/000003408826000067/0000034088-26-000067-index.html"
+        }
+      },
+      "source": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000034088.json",
+      "metadataSource": "https://data.sec.gov/submissions/CIK0000034088.json"
+    }
+  ]
+}

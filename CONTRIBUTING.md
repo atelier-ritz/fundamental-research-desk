@@ -35,6 +35,8 @@ Open http://127.0.0.1:4173. After another edit, rebuild and restart the dev serv
 5. Include the regenerated `worker/index.js` and `report.html` when changing application source. Leave `dist/` untracked.
 6. Open a pull request describing the problem, resulting behavior, source evidence and checks performed. Add screenshots for visible changes.
 
+Review the current [coverage audit](docs/COVERAGE_AUDIT.md) for known gaps. If changing a mapping used by its fixtures, run `npm run audit` and review the regenerated inventory alongside tests.
+
 ## Financial-data changes
 
 A mapping fix needs evidence that the proposed accounting tag means what the report claims. Similar names do not guarantee equivalent scope.
