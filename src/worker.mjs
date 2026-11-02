@@ -21,6 +21,7 @@ export default {async fetch(request,env={}){
    const facts=await sec('data.sec.gov/api/xbrl/companyfacts/CIK'+cik+'.json');
    let metadata={};try{metadata=await sec('data.sec.gov/submissions/CIK'+cik+'.json');}catch{}
    const data=normalize(facts,ticker,metadata);
+   data.companyDisclosures=selectReportedDisclosures(data);
    data.business=selectBusinessProfile(data,BUSINESS_PROFILES);
    if(!data.business){
     try{

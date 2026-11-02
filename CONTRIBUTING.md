@@ -55,6 +55,8 @@ Add a regression test that fails before the fix and passes afterward. Prefer a s
 
 ## Interface changes
 
+Preserve the reported-first structure. New calculated metrics belong in the collapsed Calculated analysis section; future scenarios belong in the separate Forecast model. A company-published non-GAAP value needs a first-hand URL, exact fiscal period, definition, publication/review dates and regression checks against a matching reported base. Never relabel an app-computed result as company-reported. Broader asset-purchase tags must retain their disclosed scope rather than silently filling PP&E-only capex.
+
 Keep the search homepage simple, preserve bookmarkable ticker URLs, and test failed searches, browser back/forward and mobile widths. Preserve keyboard labels and focus states. Plain-language explanations use explicit question-mark controls; avoid restoring card-wide hover balloons. Annual-history rows intentionally omit question-mark buttons.
 
 Exports must retain company facts and entered assumptions without silently loading a different default company. Verify affected browser behavior after unit checks; report any verification limit in the pull request.

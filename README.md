@@ -6,6 +6,14 @@ An interactive company-research tool built around reported financial facts and t
 
 This is an early-stage research tool, not an investment recommendation or a verified fair-value estimate. Coverage varies by company. A blank field means extraction has not established the figure; it does not mean the company did not disclose it.
 
+## Report structure
+
+The main view prioritizes company-reported figures with filing links. Unsupported annual rows are omitted when no displayed year has a mapped fact; a gap within an otherwise supported row remains a dash. Reported cash/debt panels also omit unavailable balances. These are extraction gaps, not proof of absent disclosures.
+
+Company-defined non-GAAP measures appear separately only when reviewed against a first-hand company release. Each includes the exact period, publication/review dates, definition and source. Reviewed values are tied to matching annual revenue and operating cash flow; they are withheld if that base changes. This is versioned disclosure coverage, not an automatically refreshed earnings feed.
+
+**Calculated analysis** starts collapsed: growth, margins, the tool's FCF definition, ratios, reconstructed quarters, trailing totals, comparisons and rule-based summaries live there. The main quarterly table includes only directly reported standalone-quarter facts. **Forecast & valuation model** is a separate collapsed section for hypothetical inputs. Navigation and deep links open the relevant section.
+
 ## What it does
 
 - Search-first homepage with bookmarkable reports, such as `/?ticker=AAPL`.
@@ -68,6 +76,7 @@ The hosted app currently runs through ChatGPT Sites as a Cloudflare Worker. Ther
 | `src/business.mjs`, `src/business-profiles.json` | Supported filing extraction and reviewed segment profiles |
 | `src/coverage.mjs`, `src/strength.mjs`, `src/research-summary.mjs` | Coverage, financial strength and rule-based observations |
 | `src/market*.mjs`, `src/market-ui.js` | Optional price provider and manually sourced prices |
+| `src/disclosures.mjs` | Reviewed company-defined measures, definitions and exact-period selection |
 | `src/snapshot.json` | Dated Microsoft dataset used by fixtures and standalone report generation |
 | `test/` | Formula, normalization and assembled-backend regression tests |
 | `scripts/` | Build, artifact validation and local server |
@@ -94,6 +103,7 @@ The supported path is US GAAP filers with USD facts and compatible annual and qu
 Examples covered by regression tests:
 
 - Apple current marketable securities, commercial paper and dividends use alternative standard tags.
+- NVIDIA FY2026 company-published FCF is $96.575B under its own non-GAAP definition, which also subtracts related principal payments. Its reported equipment/intangible purchases remain separate from PP&E-only capex.
 - Amazon cash purchases use an issuer-specific productive-assets mapping. Its company-defined free cash flow nets property-sale proceeds and incentives; the report separately reconciles that definition to CFO minus gross purchases.
 - Reviewed Microsoft and Amazon segment operating income reconciles to company profit before separate segment margins can be modeled.
 

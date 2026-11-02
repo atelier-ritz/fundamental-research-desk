@@ -2,13 +2,14 @@ import test from 'node:test';import assert from 'node:assert/strict';import fs f
 import worker from '../worker/index.js';import {REPORT_REVISION,cashFlowDefinitions} from '../src/finance.mjs';import {categoryForecastModel,forecastContext} from '../src/forecast.mjs';
 const read=f=>JSON.parse(fs.readFileSync(new URL(f,import.meta.url)));
 test('built production Worker returns corrected facts and refresh bypasses cached company results',async()=>{
- const original=globalThis.fetch,raws={AAPL:read('./fixtures/aapl-raw.json'),AMZN:read('./fixtures/amzn-raw.json')};let companyFactRequests=0;
+ const original=globalThis.fetch,raws={AAPL:read('./fixtures/aapl-raw.json'),AMZN:read('./fixtures/amzn-raw.json'),NVDA:read('./fixtures/nvda-raw.json')};let companyFactRequests=0;
  globalThis.fetch=async input=>{const url=String(input);if(url.endsWith('company_tickers.json'))return Response.json(Object.entries(raws).map(([ticker,d])=>({ticker,cik_str:d.cik})));if(url.includes('/companyfacts/')){companyFactRequests++;const raw=Object.values(raws).find(d=>url.endsWith(String(d.cik).padStart(10,'0')+'.json'));return Response.json(raw);}if(url.includes('/submissions/'))return Response.json({sic:'3571',sicDescription:'Test metadata'});throw Error('Unexpected network request: '+url);};
  try{
   const request=(t,refresh='')=>worker.fetch(new Request('https://example.test/api/company?ticker='+t+refresh));
   const a=await request('AAPL'),apple=await a.json();assert.equal(a.headers.get('cache-control'),'no-store');assert.equal(a.headers.get('x-report-revision'),REPORT_REVISION);assert.equal(apple.schemaVersion,REPORT_REVISION);const f=apple.years.at(-1).facts;assert.equal(f.investments.val,18763e6);assert.equal(f.shortDebt.val,7979e6);assert.equal(f.dividends.val,15421e6);
   const cached=await request('AAPL');assert.equal(cached.headers.get('cache-control'),'no-store');assert.equal(companyFactRequests,1);await request('AAPL','&refresh=1');assert.equal(companyFactRequests,2);
   const amazon=await (await request('AMZN','&refresh=1')).json();assert.equal(amazon.years.length,5);assert.ok(amazon.years.every(y=>y.facts.capex));assert.equal(cashFlowDefinitions(amazon.years.at(-1)).companyFCF,11194e6);
+  const nvidia=await (await request('NVDA','&refresh=1')).json();assert.equal(nvidia.companyDisclosures[0].value,96575e6);assert.equal(nvidia.years.at(-1).facts.equipmentIntangiblePurchases.val,6042e6);assert.equal(nvidia.years.at(-1).facts.capex,null);
   const page=await worker.fetch(new Request('https://example.test/'));assert.equal(page.headers.get('cache-control'),'no-store');assert.equal(page.headers.get('x-report-revision'),REPORT_REVISION);
  }finally{globalThis.fetch=original;}
 });

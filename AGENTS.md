@@ -5,3 +5,5 @@
 - Keep `README.md` and `CONTRIBUTING.md` accurate when setup or contributor workflows change.
 - Keep secrets out of source and commit history. Preserve the existing Sites project identity and audience when publishing app changes.
 - Confirm the push succeeded; clearly report any work that remains local or unpushed. Do not force-push or overwrite contributor work.
+
+- Preserve the reported-first report: primary statement figures and sourced company-defined measures first; app calculations in the collapsed Calculated analysis section; forecasts separate.
