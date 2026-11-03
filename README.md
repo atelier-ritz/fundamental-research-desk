@@ -168,4 +168,6 @@ Read **[CONTRIBUTING.md](CONTRIBUTING.md)** before changing accounting logic. Ne
 
 Local development does not require Sites access. The tracked hosting manifest identifies the existing live app; fork contributors should use their own hosting configuration and should not change that identity in ordinary pull requests. AWS or another JavaScript runtime would require a request-handler adapter and deployment setup.
 
-No open-source license has been selected yet. Public visibility allows inspection; it does not by itself grant general redistribution or commercial-use rights.
+The project code and original documentation are licensed under the **[MIT License](LICENSE)**. You may use, modify and redistribute them, including commercially, while retaining the copyright and license notices.
+
+Third-party company filings, data and linked materials retain their applicable rights and terms; the project license does not relicense those materials.

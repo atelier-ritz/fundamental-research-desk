@@ -69,4 +69,4 @@ Never commit API keys, tokens, `.env` files or personal account data. Configure 
 
 No LLM runs during a company lookup. Introducing an external model, data provider, dependency, persistent storage or a new accounting methodology should be discussed explicitly because it changes cost, reproducibility or data handling.
 
-The project currently has no license file; do not assume permissive licensing or introduce a license change incidentally in another contribution.
+Project code and original documentation use the [MIT License](LICENSE). Contributions are accepted under the same license. Submit only material you have the right to contribute, preserve third-party notices, and identify the source of financial fixtures.

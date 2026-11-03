@@ -8,5 +8,6 @@
     "test": "node --test test/*.test.mjs",
     "dev": "node scripts/serve.mjs",
     "audit": "node scripts/audit-coverage.mjs"
-  }
+  },
+  "license": "MIT"
 }
