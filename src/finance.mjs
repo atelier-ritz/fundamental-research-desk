@@ -1,11 +1,11 @@
 import {assessCompany} from './suitability.mjs';
 import {normalizeQuarters} from './quarters.mjs';
-export const REPORT_REVISION='2026-11-03.1';
+export const REPORT_REVISION='2026-11-03.2';
 export const TAGS = {
  depreciation:['Depreciation','DepreciationDepletionAndAmortizationPropertyPlantAndEquipment'], receivables:['AccountsReceivableNetCurrent'], inventory:['InventoryNet'], payables:['AccountsPayableCurrent'],
  interest:['InterestExpenseNonoperating','InterestExpense'], leaseInterest:['FinanceLeaseInterestExpense'], dividends:['PaymentsOfDividendsCommonStock','PaymentsOfDividends','PaymentsOfOrdinaryDividends'], buybacks:['PaymentsForRepurchaseOfCommonStock'], operatingLeases:['OperatingLeaseLiability'], financeLeases:['FinanceLeaseLiability'], maturity1:['LongTermDebtMaturitiesRepaymentsOfPrincipalInNextTwelveMonths'], maturity2:['LongTermDebtMaturitiesRepaymentsOfPrincipalInYearTwo'], maturity3:['LongTermDebtMaturitiesRepaymentsOfPrincipalInYearThree'], maturity4:['LongTermDebtMaturitiesRepaymentsOfPrincipalInYearFour'], maturity5:['LongTermDebtMaturitiesRepaymentsOfPrincipalInYearFive'], maturityAfter5:['LongTermDebtMaturitiesRepaymentsOfPrincipalAfterYearFive'],
  revenue:['RevenueFromContractWithCustomerExcludingAssessedTax','Revenues','SalesRevenueNet'],
- pretax:['IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest','IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments'], incomeTax:['IncomeTaxExpenseBenefit'], cost:['CostOfRevenue','CostOfGoodsAndServicesSold'], research:['ResearchAndDevelopmentExpense'], selling:['SellingGeneralAndAdministrativeExpense'], operating:['OperatingIncomeLoss'], net:['NetIncomeLoss'],commonIncome:['NetIncomeLossAvailableToCommonStockholdersBasic'], cfo:['NetCashProvidedByUsedInOperatingActivities'], capex:['PaymentsToAcquirePropertyPlantAndEquipment'],equipmentIntangiblePurchases:['PaymentsToAcquireProductiveAssets'],
+ pretax:['IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest','IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments'], incomeTax:['IncomeTaxExpenseBenefit'], cost:['CostOfRevenue','CostOfGoodsAndServicesSold'], research:['ResearchAndDevelopmentExpense'], selling:['SellingGeneralAndAdministrativeExpense'],sellingMarketing:['SellingAndMarketingExpense'],marketing:['MarketingExpense'],generalAdmin:['GeneralAndAdministrativeExpense'], operating:['OperatingIncomeLoss'], net:['NetIncomeLoss'],commonIncome:['NetIncomeLossAvailableToCommonStockholdersBasic'], cfo:['NetCashProvidedByUsedInOperatingActivities'], capex:['PaymentsToAcquirePropertyPlantAndEquipment'],equipmentIntangiblePurchases:['PaymentsToAcquireProductiveAssets'],
  cash:['CashAndCashEquivalentsAtCarryingValue'], investments:['ShortTermInvestments','MarketableSecuritiesCurrent'], debtCurrent:['LongTermDebtCurrent','LongTermDebtAndCapitalLeaseObligationsCurrent'], debtLong:['LongTermDebtNoncurrent'], shortDebt:['ShortTermBorrowings','CommercialPaper'], shares:['CommonStockSharesOutstanding'], eps:['EarningsPerShareDiluted'], assets:['Assets'], sbc:['ShareBasedCompensation']
 };
 export function normalize(raw,ticker,meta={}) {
@@ -45,6 +45,11 @@ export function normalize(raw,ticker,meta={}) {
   if(Number(raw.cik)===1018724&&p.start===p.end.slice(0,4)+'-01-01'){
    const year=Number(p.end.slice(0,4)),proceeds={2021:5657,2022:5324,2023:4596,2024:5341,2025:3499}[year];
    if(proceeds!==undefined){const recent=year>=2023;facts.capexProceeds={val:proceeds*1e6,start:p.start,end:p.end,tag:'amzn:ProceedsFromPropertyPlantAndEquipmentSalesAndIncentives',form:'10-K',filed:recent?'2026-02-06':'2024-02-02',accn:recent?'0001018724-26-000004':'0001018724-24-000008',url:recent?'https://www.sec.gov/Archives/edgar/data/1018724/000101872426000004/amzn-20251231.htm':'https://www.sec.gov/Archives/edgar/data/1018724/000101872424000008/amzn-20231231.htm',reviewed:'2026-11-01',method:'reviewed inline-XBRL custom tag'};}
+  }
+  // Reviewed FY2026 NVIDIA custom-tag balance; do not infer it from debt securities alone.
+  // Withhold on a restated revenue/CFO base until this historical supplement is reviewed again.
+  if(Number(raw.cik)===1045810&&p.start==='2025-01-27'&&p.end==='2026-01-25'&&facts.revenue?.val===215938e6&&facts.cfo?.val===102718e6&&!facts.investments){
+   facts.investments={val:51951e6,end:p.end,tag:'nvda:MarketableSecuritiesAndEquitySecuritiesFVNI',form:'10-K',filed:'2026-02-25',accn:'0001045810-26-000021',url:'https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm',reviewed:'2026-11-03',method:'reviewed inline-XBRL custom tag'};
   }
   const gaps={};for(const k of Object.keys(TAGS))if(!facts[k])gaps[k]=fieldGap(k,p.end,['receivables','inventory','payables','cash','investments','debtCurrent','debtLong','shortDebt','shares','assets','operatingLeases','financeLeases','maturity1','maturity2','maturity3','maturity4','maturity5','maturityAfter5'].includes(k)?null:p.start);
   return {...p,label:'FY '+p.end.slice(0,4),facts,gaps};
