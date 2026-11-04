@@ -115,3 +115,7 @@ NVIDIA's company-defined FY2026 FCF of $96.575B is reviewed from its February 25
 ## Cross-industry regression audit — November 2, 2026
 
 See [COVERAGE_AUDIT.md](COVERAGE_AUDIT.md) for the eleven-company sample, source links and deliberately unresolved gaps. The audit added cash-paid ordinary-dividend fallback support, a separate common-shareholder income field, and a Costco-only longer-quarter calendar. Parent net income, common-shareholder income and consolidated profit are not interchangeable. Reconstructed quarters remain optional calculations; the primary table selects the latest directly reported period. Annual normalization additionally rejects nonfinite values and future-end facts.
+
+### Missing annual fields
+
+Normalized annual periods include a `gaps` record for unavailable supported fields. Diagnostics distinguish absent supported tags, incompatible units, an unmatched exact period/date, issuer-specific scope restrictions, and matching facts rejected by filing/date/value checks. These describe the SEC feed and extraction rules, not whether a company disclosed the measure elsewhere. The coverage section exposes selected core-field reasons in a collapsed table; older saved reports ask for a fresh Analyze rather than inventing a diagnosis. Financial period, annual revenue filing date, retrieval date and unchecked earnings-announcement status remain separate.

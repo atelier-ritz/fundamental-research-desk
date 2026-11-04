@@ -1,6 +1,6 @@
 import {assessCompany} from './suitability.mjs';
 import {normalizeQuarters} from './quarters.mjs';
-export const REPORT_REVISION='2026-11-02.2';
+export const REPORT_REVISION='2026-11-03.1';
 export const TAGS = {
  depreciation:['Depreciation','DepreciationDepletionAndAmortizationPropertyPlantAndEquipment'], receivables:['AccountsReceivableNetCurrent'], inventory:['InventoryNet'], payables:['AccountsPayableCurrent'],
  interest:['InterestExpenseNonoperating','InterestExpense'], leaseInterest:['FinanceLeaseInterestExpense'], dividends:['PaymentsOfDividendsCommonStock','PaymentsOfDividends','PaymentsOfOrdinaryDividends'], buybacks:['PaymentsForRepurchaseOfCommonStock'], operatingLeases:['OperatingLeaseLiability'], financeLeases:['FinanceLeaseLiability'], maturity1:['LongTermDebtMaturitiesRepaymentsOfPrincipalInNextTwelveMonths'], maturity2:['LongTermDebtMaturitiesRepaymentsOfPrincipalInYearTwo'], maturity3:['LongTermDebtMaturitiesRepaymentsOfPrincipalInYearThree'], maturity4:['LongTermDebtMaturitiesRepaymentsOfPrincipalInYearFour'], maturity5:['LongTermDebtMaturitiesRepaymentsOfPrincipalInYearFive'], maturityAfter5:['LongTermDebtMaturitiesRepaymentsOfPrincipalAfterYearFive'],
@@ -11,6 +11,18 @@ export const TAGS = {
 export function normalize(raw,ticker,meta={}) {
  const gaap=raw.facts?.['us-gaap']; if(!gaap) throw Error('US GAAP financial facts are unavailable. This version supports US GAAP filers.');
  const cutoff=new Date().toISOString().slice(0,10);
+ function fieldGap(key,end,start) {
+  if(key==='equipmentIntangiblePurchases'&&Number(raw.cik)!==1045810)return {code:'scope',reason:'This broader purchase definition has not been reviewed for this company.'};
+  const tags=key==='capex'&&Number(raw.cik)===1018724?['PaymentsToAcquirePropertyPlantAndEquipment','PaymentsToAcquireProductiveAssets']:TAGS[key];
+  const present=tags.filter(tag=>gaap[tag]);
+  if(!present.length)return {code:'unmapped',reason:'None of the supported tags appears in the SEC company-facts feed. A different or company-specific tag may require review.'};
+  const unit=key==='shares'?'shares':key==='eps'?'USD/shares':'USD';
+  const entries=present.flatMap(tag=>gaap[tag].units?.[unit]||[]);
+  if(!entries.length)return {code:'unit',reason:'Supported tags exist, but not in the required '+unit+' unit.'};
+  const exact=entries.filter(f=>f.end===end&&(start?f.start===start:!f.start));
+  if(!exact.length)return {code:'period',reason:'Supported tags exist, but no fact matches this exact '+(start?'annual period.':'balance-sheet date.')};
+  return {code:'ineligible',reason:'Matching-period facts exist, but none passes the filing-type, date and finite-value checks.'};
+ }
  function pick(key,end,start) {
   if(key==='equipmentIntangiblePurchases'&&Number(raw.cik)!==1045810)return null;
   const unit=key==='shares'?'shares':key==='eps'?'USD/shares':'USD';
@@ -34,7 +46,8 @@ export function normalize(raw,ticker,meta={}) {
    const year=Number(p.end.slice(0,4)),proceeds={2021:5657,2022:5324,2023:4596,2024:5341,2025:3499}[year];
    if(proceeds!==undefined){const recent=year>=2023;facts.capexProceeds={val:proceeds*1e6,start:p.start,end:p.end,tag:'amzn:ProceedsFromPropertyPlantAndEquipmentSalesAndIncentives',form:'10-K',filed:recent?'2026-02-06':'2024-02-02',accn:recent?'0001018724-26-000004':'0001018724-24-000008',url:recent?'https://www.sec.gov/Archives/edgar/data/1018724/000101872426000004/amzn-20251231.htm':'https://www.sec.gov/Archives/edgar/data/1018724/000101872424000008/amzn-20231231.htm',reviewed:'2026-11-01',method:'reviewed inline-XBRL custom tag'};}
   }
-  return {...p,label:'FY '+p.end.slice(0,4),facts};
+  const gaps={};for(const k of Object.keys(TAGS))if(!facts[k])gaps[k]=fieldGap(k,p.end,['receivables','inventory','payables','cash','investments','debtCurrent','debtLong','shortDebt','shares','assets','operatingLeases','financeLeases','maturity1','maturity2','maturity3','maturity4','maturity5','maturityAfter5'].includes(k)?null:p.start);
+  return {...p,label:'FY '+p.end.slice(0,4),facts,gaps};
  });
  if(years.length<2)throw Error('At least two comparable annual revenue periods are required.');
  return {schemaVersion:REPORT_REVISION,ticker,name:raw.entityName,cik:raw.cik,years,retrieved:new Date().toISOString(),quarterly:normalizeQuarters(raw),sic:meta.sic||'',industry:meta.sicDescription||'',segments:[],notes:['Annual values use 330–380 day periods; metrics must match the revenue period exactly.','Latest eligible filing for each metric is used; comparative figures may be restated. Different metrics may cite different filings.','The company-facts feed omits segment dimensions. Separate annual-filing enrichment is shown when available; operating KPI coverage varies.','Annual figures anchor valuation; quarterly and trailing results are shown separately. Consensus forecasts are not included.']};
