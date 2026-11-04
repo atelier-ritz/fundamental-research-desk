@@ -22,29 +22,34 @@ export default {async fetch(request,env={}){
    const cik=String(match.cik_str).padStart(10,'0');
    const facts=await sec('data.sec.gov/api/xbrl/companyfacts/CIK'+cik+'.json');
    let metadata={};try{metadata=await sec('data.sec.gov/submissions/CIK'+cik+'.json');}catch{}
+   const annual=annualFilingMetadata(metadata);let annualHtml=null,annualSource=null,filingGap=null,recovered=0;
+   if(annual&&/^[a-zA-Z0-9_.-]+\.html?$/.test(annual.document||'')&&/^\d{10}-\d{2}-\d{6}$/.test(annual.accn||'')){
+    try{
+     annualSource='https://www.sec.gov/Archives/edgar/data/'+Number(cik)+'/'+annual.accn.replaceAll('-','')+'/'+annual.document;
+     const response=await fetch(annualSource,{headers:{'User-Agent':'FundamentalResearch/1.0 (public financial research; https://fundamental-research-desk.comfydance.chatgpt.site)'},signal:AbortSignal.timeout(20000)});
+     if(!response.ok)throw Error('Original annual filing returned '+response.status+'.');
+     if(Number(response.headers.get('content-length'))>15000000)throw Error('Original annual filing exceeds the extraction size limit.');
+     annualHtml=await response.text();if(annualHtml.length>15000000)throw Error('Original annual filing exceeds the extraction size limit.');
+     recovered=supplementAnnualFacts(facts,annualHtml,annual,annualSource,TAGS,IFRS_TAGS);
+    }catch(error){annualHtml=null;filingGap=error.message;}
+   }
    const data=normalize(facts,ticker,metadata);
+   data.originalFiling={source:annualSource,recoveredFacts:recovered,error:filingGap};
+
    data.companyDisclosures=selectReportedDisclosures(data);
    data.business=selectBusinessProfile(data,BUSINESS_PROFILES);
    if(!data.business){
     try{
-     const period=data.years.at(-1),sourceFact=period.facts.revenue;
-     const submissions=metadata.filings?metadata:await sec('data.sec.gov/submissions/CIK'+cik+'.json');
-     data.sic=submissions.sic||'';data.industry=submissions.sicDescription||'';
-     const recent=submissions.filings?.recent,index=recent?.accessionNumber?.indexOf(sourceFact.accn),doc=index>=0?recent.primaryDocument[index]:null;
-     if(doc&&/^[a-zA-Z0-9_.-]+\.html?$/.test(doc)){
-      const source='https://www.sec.gov/Archives/edgar/data/'+Number(cik)+'/'+sourceFact.accn.replaceAll('-','')+'/'+doc;
-      const response=await fetch(source,{headers:{'User-Agent':'FundamentalResearch/1.0 (public financial research; https://fundamental-research-desk.comfydance.chatgpt.site)'},signal:AbortSignal.timeout(20000)});
-      if(!response.ok)throw Error('Original filing could not be retrieved.');
-      if(Number(response.headers.get('content-length'))>15000000)throw Error('Filing exceeds this version’s extraction size limit.');
-      const html=await response.text();if(html.length>15000000)throw Error('Filing exceeds this version’s extraction size limit.');
-      const views=extractSegmentViews(html,period,sourceFact.val);
-      if(views.length)data.business={cik:Number(cik),periodEnd:period.end,totalRevenue:sourceFact.val,source,sourceLabel:sourceFact.form+' filed '+sourceFact.filed+' · inline XBRL revenue dimensions',method:'extracted',summary:null,payments:null,views,coverage:'Only single-dimension USD revenue groups that match the annual period and reconcile to company revenue are shown. Names are derived from filing tags. Descriptions and operating drivers have not been reviewed.'};
-     }
+     const period=data.years.at(-1);
+     if(annualHtml&&annual.end===period.end){
+      const views=extractSegmentViews(annualHtml,period,period.facts.revenue.val);
+      if(views.length)data.business={cik:Number(cik),periodEnd:period.end,totalRevenue:period.facts.revenue.val,source:annualSource,sourceLabel:annual.form+' filed '+annual.filed+' · inline XBRL dimensions',method:'extracted',summary:null,payments:null,views,coverage:'Single-dimension USD revenue groups match the annual period and reconcile to company revenue. Segment operating income is shown only when directly tagged in matching contexts; no allocation is inferred. Descriptions have not been reviewed.'};
+     }else if(filingGap)data.businessGap=filingGap;
     }catch(error){data.businessGap='Filing enrichment unavailable: '+error.message;}
    }
    remember('company:'+ticker,data);
    return Response.json(data,{headers:companyHeaders});
-  }catch(error){return Response.json({error:error.message},{status:502,headers:companyHeaders});}
+  }catch(error){return Response.json({error:error.message,code:error.code||'retrieval_failure'},{status:error.code?422:502,headers:companyHeaders});}
  }
  if(url.pathname!=='/')return new Response('Not found',{status:404});
  return new Response(PAGE,{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store','X-Report-Revision':REPORT_REVISION,'X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer'}});

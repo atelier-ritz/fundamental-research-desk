@@ -1,19 +1,41 @@
 import {assessCompany} from './suitability.mjs';
 import {normalizeQuarters} from './quarters.mjs';
-export const REPORT_REVISION='2026-11-03.2';
+export const REPORT_REVISION='2026-11-04.1';
 export const TAGS = {
  depreciation:['Depreciation','DepreciationDepletionAndAmortizationPropertyPlantAndEquipment'], receivables:['AccountsReceivableNetCurrent'], inventory:['InventoryNet'], payables:['AccountsPayableCurrent'],
  interest:['InterestExpenseNonoperating','InterestExpense'], leaseInterest:['FinanceLeaseInterestExpense'], dividends:['PaymentsOfDividendsCommonStock','PaymentsOfDividends','PaymentsOfOrdinaryDividends'], buybacks:['PaymentsForRepurchaseOfCommonStock'], operatingLeases:['OperatingLeaseLiability'], financeLeases:['FinanceLeaseLiability'], maturity1:['LongTermDebtMaturitiesRepaymentsOfPrincipalInNextTwelveMonths'], maturity2:['LongTermDebtMaturitiesRepaymentsOfPrincipalInYearTwo'], maturity3:['LongTermDebtMaturitiesRepaymentsOfPrincipalInYearThree'], maturity4:['LongTermDebtMaturitiesRepaymentsOfPrincipalInYearFour'], maturity5:['LongTermDebtMaturitiesRepaymentsOfPrincipalInYearFive'], maturityAfter5:['LongTermDebtMaturitiesRepaymentsOfPrincipalAfterYearFive'],
- revenue:['RevenueFromContractWithCustomerExcludingAssessedTax','Revenues','SalesRevenueNet'],
- pretax:['IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest','IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments'], incomeTax:['IncomeTaxExpenseBenefit'], cost:['CostOfRevenue','CostOfGoodsAndServicesSold'], research:['ResearchAndDevelopmentExpense'], selling:['SellingGeneralAndAdministrativeExpense'],sellingMarketing:['SellingAndMarketingExpense'],marketing:['MarketingExpense'],generalAdmin:['GeneralAndAdministrativeExpense'], operating:['OperatingIncomeLoss'], net:['NetIncomeLoss'],commonIncome:['NetIncomeLossAvailableToCommonStockholdersBasic'], cfo:['NetCashProvidedByUsedInOperatingActivities'], capex:['PaymentsToAcquirePropertyPlantAndEquipment'],equipmentIntangiblePurchases:['PaymentsToAcquireProductiveAssets'],
+ revenue:['RevenueFromContractWithCustomerExcludingAssessedTax','Revenues','SalesRevenueNet','RevenueFromContractWithCustomerIncludingAssessedTax','RevenuesNetOfInterestExpense'],
+ pretax:['IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest','IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments'], incomeTax:['IncomeTaxExpenseBenefit'], cost:['CostOfRevenue','CostOfGoodsAndServicesSold'], research:['ResearchAndDevelopmentExpense'], selling:['SellingGeneralAndAdministrativeExpense'],sellingMarketing:['SellingAndMarketingExpense'],marketing:['MarketingExpense'],generalAdmin:['GeneralAndAdministrativeExpense'], operating:['OperatingIncomeLoss'], net:['NetIncomeLoss'],commonIncome:['NetIncomeLossAvailableToCommonStockholdersBasic'], cfo:['NetCashProvidedByUsedInOperatingActivities'], capex:['PaymentsToAcquirePropertyPlantAndEquipment'],equipmentIntangiblePurchases:['PaymentsToAcquireProductiveAssets'],productiveAssetPurchases:['PaymentsToAcquireProductiveAssets'],debtAndLeases:['LongTermDebtAndCapitalLeaseObligations'],
  cash:['CashAndCashEquivalentsAtCarryingValue'], investments:['ShortTermInvestments','MarketableSecuritiesCurrent'], debtCurrent:['LongTermDebtCurrent','LongTermDebtAndCapitalLeaseObligationsCurrent'], debtLong:['LongTermDebtNoncurrent'], shortDebt:['ShortTermBorrowings','CommercialPaper'], shares:['CommonStockSharesOutstanding'], eps:['EarningsPerShareDiluted'], assets:['Assets'], sbc:['ShareBasedCompensation']
 };
+// Exact reported definitions only; do not translate currencies or synthesize totals.
+export const IFRS_TAGS={
+ revenue:['Revenue','RevenueFromContractsWithCustomers'],operating:['ProfitLossFromOperatingActivities'],net:['ProfitLoss'],
+ cfo:['CashFlowsFromUsedInOperatingActivities'],capex:['PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities'],
+ cash:['CashAndCashEquivalents'],debtCurrent:['CurrentBorrowings'],debtLong:['NoncurrentBorrowings'],
+ dividends:['DividendsPaidClassifiedAsFinancingActivities'],shares:['NumberOfSharesOutstanding'],assets:['Assets'],
+ cost:['CostOfSales'],pretax:['ProfitLossBeforeTax'],incomeTax:['IncomeTaxExpenseContinuingOperations'],
+ research:['ResearchAndDevelopmentExpense'],selling:['SellingGeneralAndAdministrativeExpense'],eps:['DilutedEarningsLossPerShare']
+};
+export function annualFilingMetadata(meta,cutoff=new Date().toISOString().slice(0,10)){
+ const r=meta.filings?.recent;if(!r)return null;
+ const rows=(r.form||[]).map((form,i)=>({form,end:r.reportDate?.[i],filed:r.filingDate?.[i],accn:r.accessionNumber?.[i],document:r.primaryDocument?.[i]})).filter(f=>['10-K','10-K/A','20-F','20-F/A','40-F','40-F/A'].includes(f.form)&&f.end&&f.end<=cutoff&&f.filed<=cutoff);
+ return rows.sort((a,b)=>b.end.localeCompare(a.end)||b.filed.localeCompare(a.filed))[0]||null;
+}
 export function normalize(raw,ticker,meta={}) {
- const gaap=raw.facts?.['us-gaap']; if(!gaap) throw Error('US GAAP financial facts are unavailable. This version supports US GAAP filers.');
  const cutoff=new Date().toISOString().slice(0,10);
+ const annualForms=['10-K','10-K/A','20-F','20-F/A','40-F','40-F/A'];
+ const hasAnnualRevenue=(ns,tags)=>tags.some(t=>(raw.facts?.[ns]?.[t]?.units?.USD||[]).some(f=>annualForms.includes(f.form)&&f.filed<=cutoff&&f.end<=cutoff&&(Date.parse(f.end)-Date.parse(f.start))/86400000>=330));
+ const namespace=hasAnnualRevenue('ifrs-full',IFRS_TAGS.revenue)&&!hasAnnualRevenue('us-gaap',TAGS.revenue)?'ifrs-full':raw.facts?.['ifrs-full']&&!hasAnnualRevenue('us-gaap',TAGS.revenue)?'ifrs-full':'us-gaap';
+ const gaap=raw.facts?.[namespace];if(!gaap)throw Object.assign(Error('Supported US GAAP or IFRS financial facts are unavailable.'),{code:'unsupported_taxonomy'});
+ const mapping=namespace==='ifrs-full'?Object.fromEntries(Object.keys(TAGS).map(k=>[k,IFRS_TAGS[k]||[]])):TAGS;
+ const filing=annualFilingMetadata(meta,cutoff);
+ const availableUnits=[...new Set([...mapping.revenue,...(mapping.cash||[])].flatMap(t=>Object.keys(gaap[t]?.units||{})))];
+ if(!hasAnnualRevenue(namespace,mapping.revenue)&&availableUnits.length&&!availableUnits.includes('USD'))throw Object.assign(Error('This issuer reports revenue in '+availableUnits.join(', ')+'. Non-USD financial statements are not yet supported; no currency conversion is inferred.'),{code:'unsupported_currency'});
+
  function fieldGap(key,end,start) {
   if(key==='equipmentIntangiblePurchases'&&Number(raw.cik)!==1045810)return {code:'scope',reason:'This broader purchase definition has not been reviewed for this company.'};
-  const tags=key==='capex'&&Number(raw.cik)===1018724?['PaymentsToAcquirePropertyPlantAndEquipment','PaymentsToAcquireProductiveAssets']:TAGS[key];
+  const tags=key==='capex'&&Number(raw.cik)===1018724?['PaymentsToAcquirePropertyPlantAndEquipment','PaymentsToAcquireProductiveAssets']:mapping[key];
   const present=tags.filter(tag=>gaap[tag]);
   if(!present.length)return {code:'unmapped',reason:'None of the supported tags appears in the SEC company-facts feed. A different or company-specific tag may require review.'};
   const unit=key==='shares'?'shares':key==='eps'?'USD/shares':'USD';
@@ -27,20 +49,20 @@ export function normalize(raw,ticker,meta={}) {
   if(key==='equipmentIntangiblePurchases'&&Number(raw.cik)!==1045810)return null;
   const unit=key==='shares'?'shares':key==='eps'?'USD/shares':'USD';
   // Amazon labels this broader standard tag as cash purchases of property and equipment.
-  const tags=key==='capex'&&Number(raw.cik)===1018724?['PaymentsToAcquirePropertyPlantAndEquipment','PaymentsToAcquireProductiveAssets']:TAGS[key];
+  const tags=key==='capex'&&Number(raw.cik)===1018724?['PaymentsToAcquirePropertyPlantAndEquipment','PaymentsToAcquireProductiveAssets']:mapping[key];
   for(const tag of tags) {
-   const list=(gaap[tag]?.units?.[unit]||[]).filter(f=>['10-K','10-K/A','10-Q','10-Q/A'].includes(f.form)&&f.filed<=cutoff&&f.end<=cutoff&&Number.isFinite(f.val)&&f.end===end&&(start?f.start===start:!f.start));
+   const list=(gaap[tag]?.units?.[unit]||[]).filter(f=>[...annualForms,'10-Q','10-Q/A'].includes(f.form)&&f.filed<=cutoff&&f.end<=cutoff&&Number.isFinite(f.val)&&f.end===end&&(start?f.start===start:!f.start));
    list.sort((a,b)=>b.filed.localeCompare(a.filed));
-   if(list.length){const f=list[0];return {...f,tag,url:'https://www.sec.gov/Archives/edgar/data/'+Number(raw.cik)+'/'+f.accn.replaceAll('-','')+'/'+f.accn+'-index.html'};}
+   if(list.length){const f=list[0];return {...f,tag:f.tag||(namespace==='ifrs-full'?namespace+':'+tag:tag),url:f.url||'https://www.sec.gov/Archives/edgar/data/'+Number(raw.cik)+'/'+f.accn.replaceAll('-','')+'/'+f.accn+'-index.html'};}
   }return null;
  }
  const periods=new Map();
- for(const tag of TAGS.revenue) for(const f of gaap[tag]?.units?.USD||[]) {
+ for(const tag of mapping.revenue) for(const f of gaap[tag]?.units?.USD||[]) {
   const days=(Date.parse(f.end)-Date.parse(f.start))/86400000;
-  if(['10-K','10-K/A'].includes(f.form)&&f.filed<=cutoff&&f.end<=cutoff&&Number.isFinite(f.val)&&days>=330&&days<=380) periods.set(f.end,{start:f.start,end:f.end});
+  if(annualForms.includes(f.form)&&f.filed<=cutoff&&f.end<=cutoff&&Number.isFinite(f.val)&&days>=330&&days<=380) periods.set(f.end,{start:f.start,end:f.end});
  }
  const years=[...periods.values()].sort((a,b)=>a.end.localeCompare(b.end)).slice(-5).map(p=>{
-  const facts={}; for(const k of Object.keys(TAGS))facts[k]=pick(k,p.end,['receivables','inventory','payables','cash','investments','debtCurrent','debtLong','shortDebt','shares','assets','operatingLeases','financeLeases','maturity1','maturity2','maturity3','maturity4','maturity5','maturityAfter5'].includes(k)?null:p.start);
+  const facts={}; for(const k of Object.keys(TAGS))facts[k]=pick(k,p.end,['receivables','inventory','payables','cash','investments','debtCurrent','debtLong','shortDebt','debtAndLeases','shares','assets','operatingLeases','financeLeases','maturity1','maturity2','maturity3','maturity4','maturity5','maturityAfter5'].includes(k)?null:p.start);
   // Reviewed custom-tag supplements omitted by SEC's standard company-facts feed.
   if(Number(raw.cik)===1018724&&p.start===p.end.slice(0,4)+'-01-01'){
    const year=Number(p.end.slice(0,4)),proceeds={2021:5657,2022:5324,2023:4596,2024:5341,2025:3499}[year];
@@ -51,11 +73,21 @@ export function normalize(raw,ticker,meta={}) {
   if(Number(raw.cik)===1045810&&p.start==='2025-01-27'&&p.end==='2026-01-25'&&facts.revenue?.val===215938e6&&facts.cfo?.val===102718e6&&!facts.investments){
    facts.investments={val:51951e6,end:p.end,tag:'nvda:MarketableSecuritiesAndEquitySecuritiesFVNI',form:'10-K',filed:'2026-02-25',accn:'0001045810-26-000021',url:'https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm',reviewed:'2026-11-03',method:'reviewed inline-XBRL custom tag'};
   }
-  const gaps={};for(const k of Object.keys(TAGS))if(!facts[k])gaps[k]=fieldGap(k,p.end,['receivables','inventory','payables','cash','investments','debtCurrent','debtLong','shortDebt','shares','assets','operatingLeases','financeLeases','maturity1','maturity2','maturity3','maturity4','maturity5','maturityAfter5'].includes(k)?null:p.start);
+  const gaps={};for(const k of Object.keys(TAGS))if(!facts[k])gaps[k]=fieldGap(k,p.end,['receivables','inventory','payables','cash','investments','debtCurrent','debtLong','shortDebt','debtAndLeases','shares','assets','operatingLeases','financeLeases','maturity1','maturity2','maturity3','maturity4','maturity5','maturityAfter5'].includes(k)?null:p.start);
   return {...p,label:'FY '+p.end.slice(0,4),facts,gaps};
  });
- if(years.length<2)throw Error('At least two comparable annual revenue periods are required.');
- return {schemaVersion:REPORT_REVISION,ticker,name:raw.entityName,cik:raw.cik,years,retrieved:new Date().toISOString(),quarterly:normalizeQuarters(raw),sic:meta.sic||'',industry:meta.sicDescription||'',segments:[],notes:['Annual values use 330–380 day periods; metrics must match the revenue period exactly.','Latest eligible filing for each metric is used; comparative figures may be restated. Different metrics may cite different filings.','The company-facts feed omits segment dimensions. Separate annual-filing enrichment is shown when available; operating KPI coverage varies.','Annual figures anchor valuation; quarterly and trailing results are shown separately. Consensus forecasts are not included.']};
+ if(years.length<2){
+  const forms=[...new Set(Object.values(gaap).flatMap(o=>Object.values(o.units||{}).flat().map(f=>f.form)))];
+  const message=availableUnits.length?'Fewer than two eligible annual revenue periods match the supported tags and USD units. This can be a mapping gap, not missing company history.':'No supported annual revenue tag is available in this feed. Original-filing extraction may be required.';
+  throw Object.assign(Error(message+(forms.includes('S-1')||forms.includes('10-Q')?' Registration or quarterly facts cannot substitute for comparable annual statements.':'')),{code:'annual_revenue_coverage'});
+ }
+ const latestEnd=years.at(-1).end;
+ const freshness={latestAnnualFiling:filing,annualBase:latestEnd,status:filing?(filing.end>latestEnd?'stale':'matched'):'unverified',message:filing&&filing.end>latestEnd?'Annual coverage incomplete: the latest annual filing ends '+filing.end+', but mapped revenue only supports '+latestEnd+'. Newer annual results are missing from this report.':!filing?'Latest annual filing could not be verified from the available SEC submissions metadata.':null};
+ const identityName=n=>String(n||'').toLowerCase().replace(/\blimited\b/g,'ltd').replace(/\bcorporation\b/g,'corp').replace(/\bincorporated\b/g,'inc').replace(/[^a-z0-9]/g,'');
+ const identity={factsName:raw.entityName,submissionsName:meta.name||null,nameDiscrepancy:!!meta.name&&identityName(meta.name)!==identityName(raw.entityName)};
+ if(meta.cik&&Number(meta.cik)!==Number(raw.cik))throw Object.assign(Error('SEC company facts and issuer metadata disagree on the company identifier. Report withheld.'),{code:'issuer_mismatch'});
+
+ return {schemaVersion:REPORT_REVISION,ticker,name:meta.name||raw.entityName,identity,freshness,accountingStandard:namespace==='ifrs-full'?'IFRS':'US GAAP',currency:'USD',cik:raw.cik,years,retrieved:new Date().toISOString(),quarterly:namespace==='ifrs-full'?{quarters:[],ttm:null,comparison:null,latestFiling:null,coverageGap:'Foreign-form quarterly reconstruction is not supported. The annual IFRS statements are shown separately.'}:Number(raw.cik)===886744?{quarters:[],ttm:null,comparison:null,latestFiling:null,coverageGap:'Consolidated quarterly revenue is not verified: newer product revenue and royalties have different tagging scopes. The quarterly table is withheld rather than labeling a component as total revenue.'}:normalizeQuarters(raw),sic:meta.sic||'',industry:meta.sicDescription||'',segments:[],notes:[...(namespace==='ifrs-full'?['IFRS reported facts in USD. No US-GAAP equivalence or currency conversion is implied. Quarterly reconstruction is not provided for foreign-form disclosures.']:[]),...(years.some(y=>y.facts.revenue?.tag==='RevenueFromContractWithCustomerIncludingAssessedTax')?['Some revenue periods include assessed taxes. Inspect the source scope before comparing them with tax-exclusive revenue.']:[]),...(years.some(y=>y.facts.revenue?.tag==='RevenuesNetOfInterestExpense')?['Revenue is reported net of interest expense. It is a financial-company revenue measure, not industrial sales.']:[]),'Broader productive-asset purchases and debt/lease obligations retain their source scope. They are not substituted for PP&E-only capex or a noncurrent-debt balance in calculations.','Annual values use 330–380 day periods; metrics must match the revenue period exactly.','Latest eligible filing for each metric is used; comparative figures may be restated. Different metrics may cite different filings.','The company-facts feed omits segment dimensions. Separate annual-filing enrichment is shown when available; operating KPI coverage varies.','Annual figures anchor valuation; quarterly and trailing results are shown separately. Consensus forecasts are not included.']};
 }
 export function cashFlowDefinitions(year){
  const v=k=>year?.facts[k]?.val,cfo=v('cfo'),gross=v('capex'),proceeds=v('capexProceeds');
@@ -75,6 +107,7 @@ export function segmentRevenuePath(data,a){
  return Array.from({length:5},(_,i)=>{const segments=m.segments.map((s,j)=>({name:s.name,revenue:s.revenue*(1+rates[j])**(i+1),growth:rates[j],margin:m.useMargins?s.margin+a.margin-m.marginAnchor:null}));return {revenue:segments.reduce((n,s)=>n+s.revenue,0),operating:m.useMargins?segments.reduce((n,s)=>n+s.revenue*s.margin,0):null,segments};});
 }
 export function dcf(data,a){
+ if(data.freshness?.status==='stale')throw Error('Valuation is withheld because a newer annual filing exists than the mapped annual base. Resolve annual coverage first.');
  const suitability=assessCompany(data);if(!suitability.dcfAllowed)throw Error(suitability.reason);
  if(!['reinvest','discount','terminal'].every(k=>Number.isFinite(a[k])))throw Error('Enter net reinvestment, discount rate (WACC), and terminal growth to calculate an illustrative scenario.');
  if(!['growth','margin','tax','reinvest','discount','terminal'].every(k=>Number.isFinite(a[k])))throw Error('All model assumptions must be finite numbers.');

@@ -1,5 +1,5 @@
 export function normalizeQuarters(raw,cutoff=new Date().toISOString().slice(0,10)){
- const tags={revenue:['RevenueFromContractWithCustomerExcludingAssessedTax','Revenues','SalesRevenueNet'],operating:['OperatingIncomeLoss'],net:['NetIncomeLoss'],cfo:['NetCashProvidedByUsedInOperatingActivities'],capex:['PaymentsToAcquirePropertyPlantAndEquipment']};
+ const tags={revenue:['RevenueFromContractWithCustomerExcludingAssessedTax','Revenues','SalesRevenueNet','RevenueFromContractWithCustomerIncludingAssessedTax','RevenuesNetOfInterestExpense'],operating:['OperatingIncomeLoss'],net:['NetIncomeLoss'],cfo:['NetCashProvidedByUsedInOperatingActivities'],capex:['PaymentsToAcquirePropertyPlantAndEquipment']};
  if(Number(raw.cik)===1018724)tags.capex.push('PaymentsToAcquireProductiveAssets');
  // Costco's 10-K defines 12-week Q1–Q3 and 16/17-week Q4.
  // https://www.sec.gov/Archives/edgar/data/909832/000090983226000093/cost-20260830.htm

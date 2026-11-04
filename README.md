@@ -102,7 +102,7 @@ See the [cross-industry coverage audit](docs/COVERAGE_AUDIT.md) for the eleven-c
 
 ## Financial coverage and limitations
 
-The supported path is US GAAP filers with USD facts and compatible annual and quarterly periods. Different companies use different accounting tags and definitions. Adding a synonym without verifying its scope can produce incorrect totals.
+The supported path includes US GAAP and selected IFRS annual facts reported in USD, with 10-K, 20-F and 40-F annual filings. Quarterly reconstruction remains limited to supported US GAAP 10-K/10-Q periods. Non-USD statements receive an explicit currency limitation; amounts are never silently converted. Original annual filings can recover supported consolidated inline-XBRL facts omitted by the SEC feed. Different companies use different accounting tags and definitions. Adding a synonym without verifying its scope can produce incorrect totals.
 
 Examples covered by regression tests:
 

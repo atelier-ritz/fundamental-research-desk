@@ -16,7 +16,7 @@ Open http://127.0.0.1:4173 and enter a symbol on the homepage. The deployed Work
 
 ## Sources and calculations
 
-`src/finance.mjs` selects USD US GAAP facts with exact revenue-period matches, keeps filing accession/tag/date provenance, and selects the latest eligible disclosure for each fact. Annual periods are 330–380 days; quarterly periods and future-dated filings are excluded. It does not guarantee comparability after accounting or business changes. Microsoft is a dated, authentic SEC snapshot bundled for immediate viewing, not live market data.
+`src/finance.mjs` selects USD US GAAP and selected IFRS facts with exact revenue-period matches, keeps filing accession/tag/date provenance, and selects the latest eligible disclosure for each fact. Annual periods are 330–380 days; quarterly periods and future-dated filings are excluded. It does not guarantee comparability after accounting or business changes. Microsoft is a dated, authentic SEC snapshot bundled for immediate viewing, not live market data.
 
 Historical free cash flow = operating cash flow − cash purchases of property and equipment. Forecast FCFF = revenue × operating margin × (1 − tax) − net reinvestment. A five-year discounted FCFF stream plus Gordon-growth terminal value produces enterprise value. The simplified equity bridge adds period-end cash and disclosed short-term investments, subtracts tagged debt, and divides by period-end common shares outstanding. Unknown short-term borrowing and investment fields are excluded and disclosed; absence is not proof of zero. The bridge omits various claims and full dilution. Growth and operating-margin starts use suitable reported history; tax uses eligible reported accounting rates where available. Reinvestment, discount rate, and terminal growth require explicit user input before valuation is calculated. These are not management guidance or analyst consensus.
 
@@ -32,7 +32,7 @@ Historical free cash flow = operating cash flow − cash purchases of property a
 
 ## Current limits
 
-US GAAP annual and supported quarterly figures in USD. Segment coverage is described below. Company-specific operating KPI feeds, live prices, peer multiples, automated narrative research, and consensus estimates are not integrated. Banks, insurers, REITs, and complex capital structures require specialized valuation models. Source gaps and model limitations are visible in the report.
+US GAAP and selected IFRS annual figures in USD; supported US GAAP quarterly figures remain separate. Annual 20-F and 40-F forms are eligible; foreign-form quarterly reconstruction and non-USD currency conversion are not supported. Segment coverage is described below. Company-specific operating KPI feeds, live prices, peer multiples, automated narrative research, and consensus estimates are not integrated. Banks, insurers, REITs, and complex capital structures require specialized valuation models. Source gaps and model limitations are visible in the report.
 
 ## Business overview and revenue composition
 
@@ -119,3 +119,13 @@ See [COVERAGE_AUDIT.md](COVERAGE_AUDIT.md) for the eleven-company sample, source
 ### Missing annual fields
 
 Normalized annual periods include a `gaps` record for unavailable supported fields. Diagnostics distinguish absent supported tags, incompatible units, an unmatched exact period/date, issuer-specific scope restrictions, and matching facts rejected by filing/date/value checks. These describe the SEC feed and extraction rules, not whether a company disclosed the measure elsewhere. The coverage section exposes selected core-field reasons in a collapsed table; older saved reports ask for a fresh Analyze rather than inventing a diagnosis. Financial period, annual revenue filing date, retrieval date and unchecked earnings-announcement status remain separate.
+
+### Original annual filings, freshness and issuer identity
+
+The Worker retrieves the newest annual filing identified in SEC submissions metadata, when available, before normalization. `src/filing-facts.mjs` recovers only whitelisted standard-tag facts in USD/shares units, with exact annual or instant periods, matching issuer identifiers and no dimensions. Conflicting repeated facts are withheld. Original-filing values do not overwrite contradictory company-facts values from the same filing. Retrieved documents remain subject to size/time limits; if recovery fails, existing data retains a freshness warning rather than implying completion.
+
+Geron's FY2024/FY2025 consolidated revenue is a reviewed exception: the filing's tagged product revenue excludes royalties, while MD&A prints total revenues of $76.994M and $183.881M. The exact reviewed filing, printed totals and operating-profit bases gate that supplement. It is labeled `reviewed:TotalRevenues`, not a fabricated standard XBRL tag or an app-calculated sum. Other years/issuers do not inherit it.
+
+`freshness` compares the selected annual revenue base with the latest annual report period in submissions metadata. A newer annual period triggers a prominent warning and withholds valuation. Matching periods do not establish that every fact or subsequent earnings release is current. Missing annual metadata is labeled unverified. Issuer names prefer SEC submissions; source-name differences are retained for review and incompatible CIKs withhold the report.
+
+The annual table can show broader reported productive-asset purchases and debt/capital-lease obligations when narrower fields are missing. These retain their definitions and never replace PP&E-only capex or noncurrent debt in calculations. Segment operating profits are extracted only from supported operating-income tags in matching single-dimension annual contexts. Losses are preserved, and separate margin forecasts still require reconciliation to company operating income.
