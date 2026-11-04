@@ -1,0 +1,358 @@
+{
+  "source": "https://stockanalysis.com/markets/active/",
+  "session": "2026-11-03",
+  "retrievedLocalDate": "2026-11-04",
+  "basis": "Single-session share volume, not dollar volume or average volume. Source screener universe; not independently consolidated exchange tape.",
+  "stocks": [
+    {
+      "rank": 1,
+      "ticker": "MERC",
+      "name": "Mercer International Inc.",
+      "volume": 612870949,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 2,
+      "ticker": "HUBC",
+      "name": "HUB Cyber Security Ltd.",
+      "volume": 401710493,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 3,
+      "ticker": "GRAB",
+      "name": "Grab Holdings Limited",
+      "volume": 153902672,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 4,
+      "ticker": "INTC",
+      "name": "Intel Corporation",
+      "volume": 149285080,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 5,
+      "ticker": "PARA",
+      "name": "Parabolic Technologies, Inc.",
+      "volume": 101870189,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 6,
+      "ticker": "INLF",
+      "name": "INLIF Limited",
+      "volume": 95176319,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 7,
+      "ticker": "NU",
+      "name": "Nu Holdings Ltd.",
+      "volume": 93030616,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 8,
+      "ticker": "NVDA",
+      "name": "NVIDIA Corporation",
+      "volume": 92167038,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 9,
+      "ticker": "RBNE",
+      "name": "Robin Energy Ltd.",
+      "volume": 91623446,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 10,
+      "ticker": "CHSN",
+      "name": "Chanson International Holding",
+      "volume": 91017730,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 11,
+      "ticker": "ORCL",
+      "name": "Oracle Corporation",
+      "volume": 84545209,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 12,
+      "ticker": "SHFS",
+      "name": "SHF Holdings, Inc.",
+      "volume": 83893973,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 13,
+      "ticker": "SGRX",
+      "name": "Sangrix Inc.",
+      "volume": 73800042,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 14,
+      "ticker": "SPCX",
+      "name": "Space Exploration Technologies Corp.",
+      "volume": 73291157,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 15,
+      "ticker": "BBD",
+      "name": "Banco Bradesco S.A.",
+      "volume": 73202816,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 16,
+      "ticker": "CENN",
+      "name": "Cenntro Inc.",
+      "volume": 73093859,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 17,
+      "ticker": "RKT",
+      "name": "Rocket Companies, Inc.",
+      "volume": 71889456,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 18,
+      "ticker": "CIFR",
+      "name": "Cipher Digital Inc.",
+      "volume": 68127501,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 19,
+      "ticker": "SMCI",
+      "name": "Super Micro Computer, Inc.",
+      "volume": 64895287,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 20,
+      "ticker": "AAPL",
+      "name": "Apple Inc.",
+      "volume": 63268665,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 21,
+      "ticker": "GERN",
+      "name": "Geron Corporation",
+      "volume": 58847960,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 22,
+      "ticker": "AAL",
+      "name": "American Airlines Group Inc.",
+      "volume": 55858274,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 23,
+      "ticker": "IREN",
+      "name": "IREN Limited",
+      "volume": 54956288,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 24,
+      "ticker": "NOK",
+      "name": "Nokia Oyj",
+      "volume": 53644059,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 25,
+      "ticker": "PLTR",
+      "name": "Palantir Technologies Inc.",
+      "volume": 53120962,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 26,
+      "ticker": "PFE",
+      "name": "Pfizer Inc.",
+      "volume": 53059341,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 27,
+      "ticker": "BAC",
+      "name": "Bank of America Corporation",
+      "volume": 51918178,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 28,
+      "ticker": "CRIS",
+      "name": "Curis, Inc.",
+      "volume": 51209539,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 29,
+      "ticker": "WULF",
+      "name": "TeraWulf Inc.",
+      "volume": 50640561,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 30,
+      "ticker": "CDE",
+      "name": "Coeur Mining, Inc.",
+      "volume": 50216377,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 31,
+      "ticker": "SOFI",
+      "name": "SoFi Technologies, Inc.",
+      "volume": 49041988,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 32,
+      "ticker": "PLUG",
+      "name": "Plug Power Inc.",
+      "volume": 45829857,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 33,
+      "ticker": "INO",
+      "name": "Inovio Pharmaceuticals, Inc.",
+      "volume": 43305271,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 34,
+      "ticker": "MPT",
+      "name": "Medical Properties Trust, Inc.",
+      "volume": 42685243,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 35,
+      "ticker": "RIOT",
+      "name": "Riot Platforms, Inc.",
+      "volume": 40852946,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 36,
+      "ticker": "F",
+      "name": "Ford Motor Company",
+      "volume": 40760580,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 37,
+      "ticker": "STLA",
+      "name": "Stellantis N.V.",
+      "volume": 40103265,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 38,
+      "ticker": "XXII",
+      "name": "22nd Century Group, Inc.",
+      "volume": 39821798,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 39,
+      "ticker": "T",
+      "name": "AT&T Inc.",
+      "volume": 39739397,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 40,
+      "ticker": "MRVL",
+      "name": "Marvell Technology, Inc.",
+      "volume": 39656591,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 41,
+      "ticker": "RIG",
+      "name": "Transocean Ltd.",
+      "volume": 38061217,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 42,
+      "ticker": "AMZN",
+      "name": "Amazon.com, Inc.",
+      "volume": 37905847,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 43,
+      "ticker": "CRWV",
+      "name": "CoreWeave, Inc.",
+      "volume": 37454661,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 44,
+      "ticker": "NFLX",
+      "name": "Netflix, Inc.",
+      "volume": 36747265,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 45,
+      "ticker": "MARA",
+      "name": "MARA Holdings, Inc.",
+      "volume": 35885848,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 46,
+      "ticker": "AMD",
+      "name": "Advanced Micro Devices, Inc.",
+      "volume": 35352983,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 47,
+      "ticker": "GOOGL",
+      "name": "Alphabet Inc.",
+      "volume": 35046881,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 48,
+      "ticker": "CMCSA",
+      "name": "Comcast Corporation",
+      "volume": 35007739,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 49,
+      "ticker": "ONDS",
+      "name": "Ondas Inc.",
+      "volume": 34594662,
+      "session": "2026-11-03"
+    },
+    {
+      "rank": 50,
+      "ticker": "ADT",
+      "name": "ADT Inc.",
+      "volume": 33848885,
+      "session": "2026-11-03"
+    }
+  ]
+}
